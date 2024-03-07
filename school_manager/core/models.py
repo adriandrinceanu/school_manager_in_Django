@@ -6,38 +6,70 @@ class Principal(models.Model):
     def __str__(self) -> str:
         return f"Principal {self.name}"
     
-class Student(models.Model):
-    # name = 
-    # parents = 
-    # teachers = 
-    # year = 
-    # group = 
-    # grades = 
-    pass
     
+class Parent(models.Model):
+    name = models.CharField(max_length=150)
+    
+    def __str__(self) -> str:
+        return f"Parent {self.name}"
+    
+    
+class Teacher(models.Model):
+    name = models.CharField(max_length=150)
+
+    def __str__(self) -> str:
+        return f"Teacher {self.name}"
+ 
+    
+class Group(models.Model):
+    name = models.CharField(max_length=200)
+
+    def __str__(self) -> str:
+        return f"Group {self.name}"
+    
+    
+
 class Year(models.Model):
     year = models.IntegerField(default=1)
-    students = models.ForeignKey(Student, on_delete=models.CASCADE)
-    teachers = models.ForeignKey('Teacher', on_delete=models.CASCADE)
-    classes = models.ForeignKey('Group', on_delete=models.CASCADE)
+    teachers = models.ManyToManyField(Teacher)
+    groups = models.ManyToManyField(Group)
     
     def __str__(self) -> str:
         return f"Year {self.year}"
     
 
-class Teacher(models.Model):
-    pass
 
-class Group(models.Model):
-    pass
+class Student(models.Model):
+    name = models.CharField(max_length=150)
+    parents = models.ManyToManyField(Parent, related_name='children')
+    teachers = models.ManyToManyField(Teacher, related_name='pupils')
+    year = models.ForeignKey(Year, on_delete=models.CASCADE, related_name='students')
+    group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='students')
+    
+    def __str__(self) -> str:
+        return f"Student {self.name}"
+   
+   
+class Subject(models.Model):
+    name = models.CharField(max_length=200)
+    description = models.TextField()
+    
+    def __str__(self) -> str:
+        return f"Subject {self.name}"
 
-class Course(models.Model):
-    pass
+ 
 
 class Grade(models.Model):
-    pass
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='grades')
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    grade = models.IntegerField()
+    
+    def __str__(self) -> str:
+        return f"Grade {self.grade}"
 
-class Parent(models.Model):
-    pass
+
+
+
+
 
 
