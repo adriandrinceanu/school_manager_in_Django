@@ -19,3 +19,5 @@ Functionalities:
     - Top teachers
 
 Chat system between students. Only accesible from student profile page, which means I have to build a search form for students. (Search by year, group, name, etc)
+
+docker exec -it school_manager_in_django-web-1 bash
