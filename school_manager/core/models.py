@@ -7,17 +7,28 @@ class Principal(models.Model):
         return f"Principal {self.name}"
     
 class Student(models.Model):
+    # name = 
+    # parents = 
+    # teachers = 
+    # year = 
+    # group = 
+    # grades = 
     pass
     
 class Year(models.Model):
-    year = models.IntegerField(max_length=1)
-    students = models.ForeignKey(Student)
+    year = models.IntegerField(default=1)
+    students = models.ForeignKey(Student, on_delete=models.CASCADE)
+    teachers = models.ForeignKey('Teacher', on_delete=models.CASCADE)
+    classes = models.ForeignKey('Group', on_delete=models.CASCADE)
+    
+    def __str__(self) -> str:
+        return f"Year {self.year}"
     
 
 class Teacher(models.Model):
     pass
 
-class Class(models.Model):
+class Group(models.Model):
     pass
 
 class Course(models.Model):

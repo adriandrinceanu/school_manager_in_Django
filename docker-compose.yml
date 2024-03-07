@@ -1,7 +1,21 @@
 services:
+  db:
+    image: postgres:16
+    env_file:
+      - .env
+    volumes:
+      - ./local-db:/var/lib/postgresql/data
   web:
     build: .
+    env_file:
+      - .env
     ports:
       - 8000:8000
     volumes:
       - ./school_manager:/school_manager/
+    environment:
+      - DJANGO_SETTINGS_MODULE:school_manager.settings
+    links:
+      - db
+    depends_on:
+      - db
