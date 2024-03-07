@@ -12,4 +12,9 @@ Functionalities:
     - best student by class/group
     - Grade prediction per student
     - Teachers with the most top students
+    - Top 10 Students
+    - Top 100 Students
+    - Best class
+    - Top classes
+    - Top teachers
     - 
