@@ -23,8 +23,8 @@ Chat system between students. Only accesible from student profile page, which me
 docker exec -it school_manager_in_django-web-1 bash
 
 To do:
-1. Models
-2. Views
+1. Models - Done (I'll revisit later)
+2. Views - In progress
 3. Urls
 4. Templates and design
 5. Top/Best of logic
