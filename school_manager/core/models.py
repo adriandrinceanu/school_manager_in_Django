@@ -41,6 +41,8 @@ class Parent(models.Model):
     name = models.CharField(max_length=150)
     email = models.CharField(max_length=200,null=True)
     phone = models.CharField(max_length=150, null=True)
+    group = models.ForeignKey(Group, on_delete=models.SET_NULL, null=True, blank=True)
+    
     def save(self, *args, **kwargs):
         if not self.pk:  # If this is a new object
             # Create a new user
@@ -58,6 +60,7 @@ class Teacher(models.Model):
     name = models.CharField(max_length=150)
     subjects = models.ManyToManyField('Subject', related_name='teachers')
     phone = models.CharField(max_length=150, null=True)
+    group = models.ForeignKey(Group, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self) -> str:
         return f"Teacher {self.name}"
