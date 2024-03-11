@@ -3,7 +3,7 @@ A Django School Management Project with a complete front-end. This project is fo
 A complex school manager with the following logic:
     - The Principal can view Teachers, Students, Student's Parents, School years, Subjects, Grades and has admin privileges over them
     - The Teachers can view their students, and have access to their grades, parents, Subjects.
-    - The Students can view their grades, Homework and teachers
+    - The Students can view their grades and teachers
     - The Parents cand view their child's grades, teachers and subjects
     
 Functionalities:
