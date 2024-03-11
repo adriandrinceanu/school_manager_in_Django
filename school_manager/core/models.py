@@ -16,6 +16,20 @@ def generate_unique_username(first_name, last_name):
 
     return username
 
+def generate_unique_username_from_str(name):
+    # Create the initial username
+    name = name.replace(' ', '_')
+    username = f"{name}".lower()
+
+    # Ensure the username is unique
+    User = get_user_model()
+    counter = 0
+    while User.objects.filter(username=username).exists():
+        counter += 1
+        username = f"{name}_{counter}".lower()
+
+    return username
+
 class Principal(models.Model):
     name = models.CharField(max_length=100)
     
@@ -27,6 +41,14 @@ class Parent(models.Model):
     name = models.CharField(max_length=150)
     email = models.CharField(max_length=200,null=True)
     phone = models.CharField(max_length=150, null=True)
+    def save(self, *args, **kwargs):
+        if not self.pk:  # If this is a new object
+            # Create a new user
+            username = generate_unique_username_from_str(self.name)  
+            password = username
+            user = User.objects.create_user(username=username, password=password)
+            self.user = user
+        super().save(*args, **kwargs)
     
     def __str__(self) -> str:
         return f"Parent {self.name}"
@@ -39,6 +61,15 @@ class Teacher(models.Model):
 
     def __str__(self) -> str:
         return f"Teacher {self.name}"
+    
+    def save(self, *args, **kwargs):
+        if not self.pk:  # If this is a new object
+            # Create a new user
+            username = generate_unique_username_from_str(self.name)  
+            password = username
+            user = User.objects.create_user(username=username, password=password)
+            self.user = user
+        super().save(*args, **kwargs)
     
     @property
     def student_parents(self):
