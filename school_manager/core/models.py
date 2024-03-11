@@ -44,12 +44,12 @@ class Parent(models.Model):
     group = models.ForeignKey(Group, on_delete=models.SET_NULL, null=True, blank=True)
     
     def save(self, *args, **kwargs):
-        if not self.pk:  # If this is a new object
+        # if not self.pk:  # If this is a new object
             # Create a new user
-            username = generate_unique_username_from_str(self.name)  
-            password = username
-            user = User.objects.create_user(username=username, password=password)
-            self.user = user
+        username = generate_unique_username_from_str(self.name)  
+        password = username
+        user = User.objects.create_user(username=username, password=password)
+        self.user = user
         super().save(*args, **kwargs)
     
     def __str__(self) -> str:
@@ -66,12 +66,12 @@ class Teacher(models.Model):
         return f"Teacher {self.name}"
     
     def save(self, *args, **kwargs):
-        if not self.pk:  # If this is a new object
+        # if not self.pk:  # If this is a new object
             # Create a new user
-            username = generate_unique_username_from_str(self.name)  
-            password = username
-            user = User.objects.create_user(username=username, password=password)
-            self.user = user
+        username = generate_unique_username_from_str(self.name)  
+        password = username
+        user = User.objects.create_user(username=username, password=password)
+        self.user = user
         super().save(*args, **kwargs)
     
     @property
@@ -146,7 +146,7 @@ class StudentGrade(models.Model):
     grade = models.ForeignKey(Grade, on_delete=models.CASCADE)
 
     def __str__(self) -> str:
-        return f"Student {self.student.name} got {self.grade.grade} in {self.subject.name}"
+        return f"Student {self.student.first_name} {self.student.last_name} got {self.grade.grade} in {self.subject.name}"
 
 
 class Homework(models.Model):
