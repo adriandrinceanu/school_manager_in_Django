@@ -45,7 +45,9 @@ class Student(models.Model):
     teachers = models.ManyToManyField(Teacher, related_name='pupils')
     year = models.ForeignKey(Year, on_delete=models.CASCADE, related_name='students')
     group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='students')
-    
+    grades = models.ForeignKey('Grade', on_delete=models.CASCADE, related_name='grades')
+    subjects = models.ForeignKey('Subject', on_delete=models.CASCADE, related_name='subjects')
+   
     def __str__(self) -> str:
         return f"Student {self.name}"
    
@@ -60,16 +62,7 @@ class Subject(models.Model):
  
 
 class Grade(models.Model):
-    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='grades')
-    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     grade = models.IntegerField()
     
     def __str__(self) -> str:
         return f"Grade {self.grade}"
-
-
-
-
-
-
-
