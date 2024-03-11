@@ -16,9 +16,18 @@ class Parent(models.Model):
     
 class Teacher(models.Model):
     name = models.CharField(max_length=150)
+    subjects = models.ManyToManyField('Subject', related_name='teachers')
 
     def __str__(self) -> str:
         return f"Teacher {self.name}"
+    
+    @property
+    def student_parents(self):
+        parents = set()
+        for student in self.pupils.all():
+            for parent in student.parents.all():
+                parents.add(parent)
+        return parents
  
     
 class Group(models.Model):
@@ -45,8 +54,8 @@ class Student(models.Model):
     teachers = models.ManyToManyField(Teacher, related_name='pupils')
     year = models.ForeignKey(Year, on_delete=models.CASCADE, related_name='students')
     group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='students')
-    grades = models.ForeignKey('Grade', on_delete=models.CASCADE, related_name='grades')
-    subjects = models.ForeignKey('Subject', on_delete=models.CASCADE, related_name='subjects')
+    grades = models.ManyToManyField('Grade', related_name='students')
+    subjects = models.ManyToManyField('Subject', related_name='students')
    
     def __str__(self) -> str:
         return f"Student {self.name}"
@@ -62,6 +71,8 @@ class Subject(models.Model):
  
 
 class Grade(models.Model):
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     grade = models.IntegerField()
     
     def __str__(self) -> str:
