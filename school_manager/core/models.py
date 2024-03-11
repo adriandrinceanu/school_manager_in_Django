@@ -61,6 +61,7 @@ class Teacher(models.Model):
     subjects = models.ManyToManyField('Subject', related_name='teachers')
     phone = models.CharField(max_length=150, null=True)
     group = models.ForeignKey(Group, on_delete=models.SET_NULL, null=True, blank=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE,null=True)
 
     def __str__(self) -> str:
         return f"Teacher {self.name}"

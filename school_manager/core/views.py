@@ -1,18 +1,41 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.db.models import Avg
+from django.contrib.auth import login,logout,authenticate
+from django.db.models import Avg, Count
+from django.views import View
+from django.contrib import messages
+
+
 
 
 # Import your models here
 from .models import Parent, Teacher, Student, Subject, Grade, StudentGrade, Year, YearGroup, Homework
 
 
+def home(request):
+    years = Year.objects.all()
+    return render(request, 'home.html', {'years':years})
+
+def loginPage(request):
+    if request.user.is_authenticated:
+        return redirect('home')
+    else:
+       if request.method=="POST":
+        username=request.POST.get('username')
+        password=request.POST.get('password')
+        user=authenticate(request,username=username,password=password)
+        if user is not None:
+            print("working")
+            login(request,user)
+            return redirect('home')
+       context={}
+       return render(request,'login.html',context)
 
 @login_required
-def teacher_view_students(request):
-    teacher = get_object_or_404(Teacher, user=request.user)
-    students = teacher.pupils.all()  # Assuming a many-to-many relationship between Teacher and Student through pupils
-    return render(request, 'teacher_students.html', {'students': students})
+def teacher_view(request):
+    teacher = Teacher.objects.get(user=request.user)
+    students = teacher.pupils.all()
+    return render(request, 'teacher_students.html', {'teacher': teacher, 'students': students})
 
 @login_required
 def student_view_grades(request):
@@ -80,70 +103,28 @@ def teacher_view_assigned_homework(request):
 
 
 
-def best_student_per_teacher(teacher):
-    """
-    Calculates the student with the highest average grade for a given teacher.
+# Best student per year
+class BestStudentPerYearView(View):
+    def get(self, request, *args, **kwargs):
+        year = request.GET.get('year')
+        best_student = Student.objects.filter(year__year=year).annotate(avg_grade=Avg('studentgrade__grade')).order_by('-avg_grade').first()
+        return render(request, 'best_student.html', {'best_student': best_student})
 
-    Args:
-        teacher (Teacher): The teacher object.
+# Best student by class/group
+class BestStudentByGroupView(View):
+    def get(self, request, *args, **kwargs):
+        group = request.GET.get('group')
+        best_student = Student.objects.filter(group__name=group).annotate(avg_grade=Avg('studentgrade__grade')).order_by('-avg_grade').first()
+        return render(request, 'best_student.html', {'best_student': best_student})
 
-    Returns:
-        Student: The student with the highest average grade, or None if no grades exist.
-    """
+# Top 10 students
+class TopStudentsView(View):
+    def get(self, request, *args, **kwargs):
+        top_students = Student.objects.annotate(avg_grade=Avg('studentgrade__grade')).order_by('-avg_grade')[:10]
+        return render(request, 'top_students.html', {'top_students': top_students})
 
-    student_grades = StudentGrade.objects.filter(
-        student__teachers__in=[teacher]
-    ).annotate(average_grade=Avg('grade__grade'))
-
-    if not student_grades.exists():
-        return None  # No grades found for this teacher
-
-    # Assuming higher average grade is better (modify if needed)
-    best_student = student_grades.order_by('-average_grade').first()
-    return best_student.student
-
-def best_student_per_year(year):
-    """
-    Calculates the student with the highest average grade for a given year.
-
-    Args:
-        year (Year): The year object.
-
-    Returns:
-        Student: The student with the highest average grade, or None if no grades exist.
-    """
-
-    student_grades = StudentGrade.objects.filter(student__year=year).annotate(
-        average_grade=Avg('grade__grade')
-    )
-
-    if not student_grades.exists():
-        return None  # No grades found for this year
-
-    # Assuming higher average grade is better (modify if needed)
-    best_student = student_grades.order_by('-average_grade').first()
-    return best_student.student
-
-def best_student_by_class_group(year_group):
-    """
-    Calculates the student with the highest average grade for a given class/group.
-
-    Args:
-        year_group (YearGroup): The year group object.
-
-    Returns:
-        Student: The student with the highest average grade, or None if no grades exist.
-    """
-
-    student_grades = StudentGrade.objects.filter(student__year_group=year_group).annotate(
-        average_grade=Avg('grade__grade')
-    )
-
-    if not student_grades.exists():
-        return None  # No grades found for this class/group
-
-    # Assuming higher average grade is better (modify if needed)
-    best_student = student_grades.order_by('-average_grade').first()
-    return best_student.student
-
-
+# Top teachers
+class TopTeachersView(View):
+    def get(self, request, *args, **kwargs):
+        top_teachers = Teacher.objects.annotate(num_top_students=Count('pupils__studentgrade__grade', filter=Q(studentgrade__grade__gte=90))).order_by('-num_top_students')
+        return render(request, 'top_teachers.html', {'top_teachers': top_teachers})

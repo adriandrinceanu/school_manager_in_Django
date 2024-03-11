@@ -22,4 +22,5 @@ urlpatterns = [
     path("__debug__/", include("debug_toolbar.urls")),
     path('tinymce/', include('tinymce.urls')),
     path('api-auth/', include('rest_framework.urls')),
+    path('',include('core.urls')),
 ]
