@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<main>
+    <div class="container py-4">
+    
+      <div class="row align-items-md-stretch">
+        <div class="col-md-4" style="height: auto; overflow: auto; position: sticky; top: 50px;" >
+          <div class="h-100 p-5 text-bg-light rounded-1 border">
+            <img style='width:160px; height:auto;' src="{{ student.profile_pic.url }}" class="card-img-top" alt="{{ student.first_name }} {{ student.last_name }}">
+            <h2>{{ student.first_name }} {{ student.last_name }}'s Profile</h2>
+            <p>Student</p>
+            <hr class="styled-hr">
+            <p>Parents: 
+                <ul>
+                    {% for parent in student.parents.all %}
+                        <li>
+                            {{ parent.name }}
+                            <ul>
+                                <li>Email: {{ parent.email }}</li>
+                                <li>Phone: {{ parent.phone }}</li>
+                            </ul>
+                        </li>
+                    {% endfor %}
+                    </ul>
+            </p>
+          </div>
+        </div>
+        <div class="col-md-8">
+            <div class="h-100 p-5 text-bg-light border rounded-1">
+                <h2>{{ student.first_name }}'s Grades</h2>
+                <div class="p-1 gap-3 py-1 w-100 ">
+                    <div class="list-group">
+                        {% for grade in grades %}
+                        <div class="d-flex py-1 w-100 justify-content-between ">
+                            <div>
+                                <h6 class="mb-0">{{ grade.subject }}: {{ grade.grade }}</h6>
+                            </div>
+                            <div class="d-flex">
+                                <form method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="grade_id" value="{{ grade.id }}">
+                                    <button type="submit" name="delete" class="btn btn-danger">Delete</button>
+                                </form>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }} 
+                    <input type="hidden" name="student" value="{{ student_pk }}">
+                    <button type="submit" name="add" class="btn btn-primary">Add Grade</button>
+                </form>
+            </div>
+        </div>
+      </div>
+  
+  </main>
+
+
+{% endblock %}

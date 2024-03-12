@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login,logout,authenticate
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
-
+from .forms import AddGradeForm
 
 from django.db.models import Avg, Count
 from django.views import View
@@ -66,6 +66,26 @@ def teacher_profile(request, username):
     parents = [student.parents.all() for student in students]
     grades = {student: StudentGrade.objects.filter(student=student) for student in students}
     return render(request, 'teacher.html', {'teacher': teacher, 'students': students, 'subjects': subjects, 'parents': parents, 'grades': grades})
+
+
+def teacher_student_detail(request, pk):
+    student = get_object_or_404(Student, pk=pk)
+    if request.method == 'POST':
+        form = AddGradeForm(request.POST)
+        if 'add' in request.POST:
+            if form.is_valid():
+                grade = form.save(commit=False)
+                grade.student = student
+                grade.save()
+        elif 'delete' in request.POST:
+            grade_id = request.POST.get('grade_id')
+            grade = get_object_or_404(StudentGrade, pk=grade_id)
+            grade.delete()
+    
+    else:
+        form = AddGradeForm()
+    grades = StudentGrade.objects.filter(student=student)
+    return render(request, 'teacher_student_detail.html', {'student': student, 'student_pk': pk, 'grades': grades, 'form': form})
 
 
 def student_profile(request):
