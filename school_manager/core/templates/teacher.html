@@ -1,17 +1,31 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h2>Welcome, {{ teacher.name }}!</h2>
-  <p>You are teaching the following subjects:</p>
+  <h1>{{ teacher.name }}'s Profile</h1>
+  <h2>Subjects</h2>
   <ul>
     {% for subject in subjects %}
       <li>{{ subject.name }}</li>
     {% endfor %}
   </ul>
-  <p>Here are your students:</p>
+  <h2>Students</h2>
   <ul>
     {% for student in students %}
-      <li>{{ student.first_name }} {{ student.last_name }}</li>
+      <li>
+        {{ student.first_name }} {{ student.last_name }}
+        <h3>Parents</h3>
+        <ul>
+          {% for parent in parents %}
+            <li>{{ parent.name }}</li>
+          {% endfor %}
+        </ul>
+        <h3>Grades</h3>
+        <ul>
+          {% for studentgrade in grades.student %}
+            <li>{{ studentgrade.subject.name }}: {{ studentgrade.grade.grade }}</li>
+          {% endfor %}
+        </ul>
+      </li>
     {% endfor %}
   </ul>
 {% endblock %}

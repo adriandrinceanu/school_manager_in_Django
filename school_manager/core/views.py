@@ -18,12 +18,13 @@ def home(request):
 
 def loginPage(request):
     if request.user.is_authenticated:
+        username = request.user.username
         if request.user.groups.filter(name='Teachers').exists():
-            return redirect('teacher_profile')
+            return redirect('teacher_profile', username=username)
         elif request.user.groups.filter(name='Students').exists():
-            return redirect('student_profile')
+            return redirect('student_profile', username=username)
         elif request.user.groups.filter(name='Parents').exists():
-            return redirect('parent_profile')
+            return redirect('parent_profile', username=username)
         else:
             return HttpResponse('You are not part of the Teacher, Student, or Parent groups.')
     else:
@@ -34,11 +35,11 @@ def loginPage(request):
             if user is not None:
                 login(request, user)
                 if user.groups.filter(name='Teachers').exists():
-                    return redirect('teacher_profile')
+                    return redirect('teacher_profile', username=username)
                 elif user.groups.filter(name='Students').exists():
-                    return redirect('student_profile')
+                    return redirect('student_profile', username=username)
                 elif user.groups.filter(name='Parents').exists():
-                    return redirect('parent_profile')
+                    return redirect('parent_profile', username=username)
                 else:
                     return HttpResponse('You are not part of the Teacher, Student, or Parent groups.')
         groups = Group.objects.prefetch_related('user_set')    
@@ -58,11 +59,14 @@ def profile(request):
         # Handle users not in any of the specified groups
         return HttpResponse('You are not part of the Teacher, Student, or Parent groups.')
 
-def teacher_profile(request):
-    teacher = Teacher.objects.get(user=request.user)
+def teacher_profile(request, username):
+    teacher = get_object_or_404(Teacher, user__username=username)
     students = teacher.pupils.all()
     subjects = teacher.subjects.all()
-    return render(request, 'teacher.html', {'teacher': teacher, 'students': students, 'subjects': subjects})
+    parents = [student.parents.all() for student in students]
+    grades = {student: StudentGrade.objects.filter(student=student) for student in students}
+    return render(request, 'teacher.html', {'teacher': teacher, 'students': students, 'subjects': subjects, 'parents': parents, 'grades': grades})
+
 
 def student_profile(request):
     student = Student.objects.get(user=request.user)
