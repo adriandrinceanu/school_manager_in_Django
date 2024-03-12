@@ -165,3 +165,6 @@ REST_FRAMEWORK = {
 # we temporarly bypass all django's security auth
 AUTH_PASSWORD_VALIDATORS = []
 LOGIN_URL = 'login'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  
