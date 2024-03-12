@@ -1,16 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Login</title>
-</head>
-<body>
-    <h1>Login</h1>
+{% extends 'base.html' %}
 
-<main class="form-signin w-100 m-auto" style="padding-top: 10%;">
-    <form method="POST" action="">
+{% load static %}
+
+{% block content %}
+
+<main class=" w-100 m-auto" style="padding-top: 10%;">
+
+  <div class="row mb-3 ">
+    <div class="col-6 themed-grid-col" style="padding: 1% 10% 5% 10%; ">
+      <h1 class="titlu">SchoolBook</h1>
+      <h3 class="titlu-mic">SchoolBook helps you connect and chat with the people in your school. It's also parent friendly.</h3>
+    </div>
+ 
+    <div class="col-6 themed-grid-col form-signin shadow-lg p-3 mb-5 bg-body-tertiary rounded" style="background-color:#fff !important;">
+      <form method="POST" action="">
         {% csrf_token %}
-      <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
   
       <div class="form-floating">
         <input type="text" class="form-control" name="username" placeholder="Username...">
@@ -24,7 +28,9 @@
      
       <button class="btn btn-primary w-100 py-2" type="submit" value="Login">Sign in</button>
     </form>
-  </main>
+    </div>
+  </div>
 
-</body>
-</html>
+    
+  </main>
+  {% endblock %}
