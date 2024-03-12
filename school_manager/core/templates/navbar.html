@@ -1,4 +1,5 @@
 {% load static %}
+{% load group_check %}
 
 <nav class="navbar navbar-expand-lg bg-body-tertiary" aria-label="Thirteenth navbar example">
   <div class="container-fluid">
@@ -10,25 +11,21 @@
       <ul class="navbar-nav col-lg-6 justify-content-lg-center">
         <li class="nav-item"><a class="nav-link active" aria-current="page" href=#>Home</a></li>
         
-        {% if request.user.is_staff %}
-        <li class="nav-item"><a href=# class="nav-link px-2" aria-current="page">Add book</a></li>
-        <li class="nav-item"><a href=# class="nav-link px-2" aria-current="page">Mesaje</a></li>
-        {% else %}
+        
 
-        {% if request.user.is_authenticated %}
-          <li class="nav-item"><a href=# class="nav-link px-2" aria-current="page">My rentals</a></li>
+        {% if request.user|in_group:"Teachers" %}
+        <li class="nav-item"><a class="nav-link" aria-current="page" href="{% url 'teacher_profile' username=teacher.user.username %}">Profile</a></li>
         {% endif %}
 
-        <li class="nav-item"><a class="nav-link" aria-current="page" href=#>Top Books</a></li>
-        <li class="nav-item"><a class="nav-link px-2" aria-current="page" href=#>Search</a></li>
-        <li class="nav-item"><a class="nav-link" aria-current="page" href=#>Contact</a></li>
+        {% if request.user|in_group:"Students" %}
+        <li class="nav-item"><a class="nav-link" aria-current="page" href="{% url 'student_profile' username=student.user.username %}">Profile</a></li>
         {% endif %}
       
       </ul>
       <div class="d-lg-flex col-lg-3 justify-content-lg-end" style="padding-right:2%;">
         {% if request.user.is_authenticated %}
         
-          <span class="hello-msg d-flex align-items-center justify-content-center">Hello, {{request.user}}  &nbsp;&nbsp; </span><a href=# class="btn btn-outline-primary me-2">Logout</a>
+          <span class="hello-msg d-flex align-items-center justify-content-center">Hello, {{request.user}}  &nbsp;&nbsp; </span><a href="{% url 'logout' %}" class="btn btn-outline-primary me-2">Logout</a>
         {% else %}
           <a href="{% url 'login' %}" class="btn btn-outline-primary me-2">Login</a>
         {% endif %}
