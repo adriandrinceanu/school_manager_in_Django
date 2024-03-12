@@ -1,34 +1,8 @@
 from django.db import models
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User, Group, AbstractUser
 from django.contrib.auth import get_user_model
 
 
-# def generate_unique_username(first_name, last_name):
-#     # Create the initial username
-#     username = f"{first_name}_{last_name}".lower()
-
-#     # Ensure the username is unique
-#     User = get_user_model()
-#     counter = 0
-#     while User.objects.filter(username=username).exists():
-#         counter += 1
-#         username = f"{first_name}_{last_name}_{counter}".lower()
-
-#     return username
-
-# def generate_unique_username_from_str(name):
-#     # Create the initial username
-#     name = name.replace(' ', '_')
-#     username = f"{name}".lower()
-
-#     # Ensure the username is unique
-#     User = get_user_model()
-#     counter = 0
-#     while User.objects.filter(username=username).exists():
-#         counter += 1
-#         username = f"{name}_{counter}".lower()
-
-#     return username
 
 class Principal(models.Model):
     name = models.CharField(max_length=100)

@@ -18,6 +18,7 @@ class AddGradeForm(forms.ModelForm):
         }
         
     def __init__(self, *args, **kwargs):
-        self.teacher = kwargs.pop('teacher')
+        self.teacher = kwargs.pop('teacher', None)
         super().__init__(*args, **kwargs)
-        self.fields['subject'].queryset = self.teacher.subjects.all()
+        if self.teacher is not None:
+            self.fields['subject'].queryset = self.teacher.subjects.all()
