@@ -1,10 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import login,logout,authenticate
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
 from .forms import AddGradeForm
-
 from django.db.models import Avg, Count
 from django.views import View
 from django.contrib import messages
@@ -46,7 +45,14 @@ def loginPage(request):
         context = {'groups': groups}
         return render(request, 'login.html', context)
     
+def logoutPage(request):
+    logout(request)
+    return redirect('login')
     
+
+def in_teachers_group(user):
+    return user.groups.filter(name='Teachers').exists()
+
 @login_required
 def profile(request):
     if request.user.groups.filter(name='Teachers').exists():
@@ -84,13 +90,13 @@ def teacher_student_detail(request, pk):
             grade.delete()
     
     else:
-        form = AddGradeForm()
+        form = AddGradeForm(teacher=teacher)
     grades = StudentGrade.objects.filter(student=student)
-    return render(request, 'teacher_student_detail.html', {'student': student, 'student_pk': pk, 'grades': grades, 'form': form})
+    return render(request, 'teacher_student_detail.html', {'student': student, 'teacher': teacher, 'student_pk': pk, 'grades': grades, 'form': form})
 
 
-def student_profile(request):
-    student = Student.objects.get(user=request.user)
+def student_profile(request, username):
+    student = get_object_or_404(Student,  user__username=username)
     year = student.year
     year_group = student.year_group
     grades = student.studentgrade_set.all()
