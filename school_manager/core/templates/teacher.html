@@ -11,14 +11,35 @@
         <div class="h-100 p-5 text-bg-light rounded-1 border">
           <img style='width:260px; height:auto;' src="{{ teacher.profile_pic.url }}" class="card-img-top" alt="{{ teacher.name }}">
           <h2>{{ teacher.name }}</h2>
-          <p>Swap the background-color utility and add a `.text-*` color utility to mix up the jumbotron look. Then, mix and match with additional component themes and more.</p>
+          <p>Teacher</p>
+          <hr class="styled-hr">
+          <p>I teach: 
+            {% for subject in subjects %}
+              {{ subject.name }}
+            {% endfor %}
+          </p>
         </div>
       </div>
       <div class="col-md-8">
         <div class="h-100 p-5 bg-body-tertiary border rounded-1" >
-          <h2>Add borders</h2>
-          <p>Or, keep it light and add a border for some added definition to the boundaries of your content. Be sure to look under the hood at the source HTML here as we've adjusted the alignment and sizing of both column's content for equal-height.</p>
-          <button class="btn btn-outline-secondary" type="button">Example button</button>
+          <h2>My students</h2>
+          <p>
+            {% for student in students %}
+            <div class=" p-4 gap-3 py-1 w-100 ">
+              <div class="list-group">
+                <li  class="list-group-item list-group-item-action d-flex  gap-3 py-3" >
+                  <img src="{{ student.profile_pic.url }}"  width="32" height="32" class="rounded-circle flex-shrink-0">
+                  <div class="d-flex gap-1 w-100 justify-content-between gap-3">
+                    <div>
+                      <h6 class="mb-0">{{ student.first_name }} {{ student.last_name }}</h6>
+                    </div>
+                  </div>
+              </li>
+              </div>
+          </div>
+              
+            {% endfor %}
+          </p>
         </div>
       </div>
     </div>

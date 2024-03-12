@@ -1,4 +1,12 @@
 
+.styled-hr {
+  border: 1px solid #ccc;
+  margin: 15px 0;
+  width: 75%;
+  background-color: #eee;
+  text-align: right;
+}
+
 .titlu{
   color:#0866ff;
   font-weight: bolder;
