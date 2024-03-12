@@ -10,6 +10,9 @@
     <div class="col-6 themed-grid-col" style="padding: 1% 10% 5% 10%; ">
       <h1 class="titlu">SchoolBook</h1>
       <h3 class="titlu-mic">SchoolBook helps you connect and chat with the people in your school. It's also parent friendly.</h3>
+      {% for group in groups %}
+  <p>{{ group.name }} ({{ group.user_set.count }} users) </p>
+{% endfor %}
     </div>
  
     <div class="col-6 themed-grid-col form-signin shadow-lg p-3 mb-5 bg-body-tertiary rounded" style="background-color:#fff !important;">

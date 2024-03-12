@@ -1,6 +1,10 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login,logout,authenticate
+from django.contrib.auth import get_user_model
+from django.contrib.auth.models import Group
+
+
 from django.db.models import Avg, Count
 from django.views import View
 from django.contrib import messages
@@ -14,28 +18,45 @@ def home(request):
 
 def loginPage(request):
     if request.user.is_authenticated:
-        return redirect('home')
+        if request.user.groups.filter(name='Teachers').exists():
+            return redirect('teacher_profile')
+        elif request.user.groups.filter(name='Students').exists():
+            return redirect('student_profile')
+        elif request.user.groups.filter(name='Parents').exists():
+            return redirect('parent_profile')
+        else:
+            return HttpResponse('You are not part of the Teacher, Student, or Parent groups.')
     else:
-       if request.method=="POST":
-        username=request.POST.get('username')
-        password=request.POST.get('password')
-        user=authenticate(request,username=username,password=password)
-        if user is not None:
-            print("working")
-            login(request,user)
-            return redirect('home')
-       context={}
-       return render(request,'login.html',context)
-
-
+        if request.method == "POST":
+            username = request.POST.get('username')
+            password = request.POST.get('password')
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                if user.groups.filter(name='Teachers').exists():
+                    return redirect('teacher_profile')
+                elif user.groups.filter(name='Students').exists():
+                    return redirect('student_profile')
+                elif user.groups.filter(name='Parents').exists():
+                    return redirect('parent_profile')
+                else:
+                    return HttpResponse('You are not part of the Teacher, Student, or Parent groups.')
+        groups = Group.objects.prefetch_related('user_set')    
+        context = {'groups': groups}
+        return render(request, 'login.html', context)
+    
+    
 @login_required
 def profile(request):
-    if request.user.groups.filter(name='Teacher').exists():
+    if request.user.groups.filter(name='Teachers').exists():
         return teacher_profile(request)
-    elif request.user.groups.filter(name='Student').exists():
+    elif request.user.groups.filter(name='Students').exists():
         return student_profile(request)
-    elif request.user.groups.filter(name='Parent').exists():
+    elif request.user.groups.filter(name='Parents').exists():
         return parent_profile(request)
+    else:
+        # Handle users not in any of the specified groups
+        return HttpResponse('You are not part of the Teacher, Student, or Parent groups.')
 
 def teacher_profile(request):
     teacher = Teacher.objects.get(user=request.user)

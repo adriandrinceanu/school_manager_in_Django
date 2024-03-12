@@ -51,6 +51,8 @@ class Parent(models.Model):
         user = User.objects.create_user(username=username, password=password)
         self.user = user
         super().save(*args, **kwargs)
+        if self.group:
+            self.user.groups.add(self.group)  # Add the user to the group.
     
     def __str__(self) -> str:
         return f"Parent {self.name}"
@@ -61,7 +63,6 @@ class Teacher(models.Model):
     subjects = models.ManyToManyField('Subject', related_name='teachers')
     phone = models.CharField(max_length=150, null=True)
     group = models.ForeignKey(Group, on_delete=models.SET_NULL, null=True, blank=True)
-    user = models.OneToOneField(User, on_delete=models.CASCADE,null=True)
 
     def __str__(self) -> str:
         return f"Teacher {self.name}"
@@ -74,6 +75,8 @@ class Teacher(models.Model):
         user = User.objects.create_user(username=username, password=password)
         self.user = user
         super().save(*args, **kwargs)
+        if self.group:
+            self.user.groups.add(self.group)  # Add the user to the group.
     
     @property
     def student_parents(self):
@@ -124,6 +127,8 @@ class Student(models.Model):
             user = User.objects.create_user(username=username, password=password)
             self.user = user
         super().save(*args, **kwargs)
+        if self.group:
+            self.user.groups.add(self.group)  # Add the user to the group.
         
 
    
