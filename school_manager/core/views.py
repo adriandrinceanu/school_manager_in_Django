@@ -70,8 +70,9 @@ def teacher_profile(request, username):
 
 def teacher_student_detail(request, pk):
     student = get_object_or_404(Student, pk=pk)
+    teacher = request.user.teacher
     if request.method == 'POST':
-        form = AddGradeForm(request.POST)
+        form = AddGradeForm(request.POST, teacher=teacher)
         if 'add' in request.POST:
             if form.is_valid():
                 grade = form.save(commit=False)

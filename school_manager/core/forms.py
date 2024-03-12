@@ -16,3 +16,8 @@ class AddGradeForm(forms.ModelForm):
                 'class': 'form-control',
             }),
         }
+        
+    def __init__(self, *args, **kwargs):
+        self.teacher = kwargs.pop('teacher')
+        super().__init__(*args, **kwargs)
+        self.fields['subject'].queryset = self.teacher.subjects.all()

@@ -30,6 +30,20 @@
         <div class="col-md-8">
             <div class="h-100 p-5 text-bg-light border rounded-1">
                 <h2>{{ student.first_name }}'s Grades</h2>
+                <hr class="styled-hr">
+                <form method="post" class="row g-3 justify-content-between">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        <div class="col-auto">
+                            {{ field.label_tag }} {{ field }}
+                        </div>
+                    {% endfor %}
+                    <input type="hidden" name="student" value="{{ student_pk }}">
+                    <div class="col-auto">
+                        <button type="submit" name="add" class="btn btn-primary mb-2 rounded-1">Add Grade</button>
+                    </div>
+                </form>
+                <hr class="styled-hr">
                 <div class="p-1 gap-3 py-1 w-100 ">
                     <div class="list-group">
                         {% for grade in grades %}
@@ -37,28 +51,25 @@
                             <div>
                                 <h6 class="mb-0">{{ grade.subject }}: {{ grade.grade }}</h6>
                             </div>
+                                                            
+
                             <div class="d-flex">
                                 <form method="post">
                                     {% csrf_token %}
                                     <input type="hidden" name="grade_id" value="{{ grade.id }}">
-                                    <button type="submit" name="delete" class="btn btn-danger">Delete</button>
+                                    <button type="submit" name="delete" class="btn btn-danger rounded-1">Delete</button>
                                 </form>
                             </div>
                         </div>
+                        <hr class="styled-hr">
                         {% endfor %}
                     </div>
                 </div>
-                <form method="post">
-                    {% csrf_token %}
-                    {{ form.as_p }} 
-                    <input type="hidden" name="student" value="{{ student_pk }}">
-                    <button type="submit" name="add" class="btn btn-primary">Add Grade</button>
-                </form>
+                
             </div>
         </div>
       </div>
   
   </main>
-
 
 {% endblock %}
