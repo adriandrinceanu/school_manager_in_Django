@@ -43,17 +43,7 @@ class Parent(models.Model):
     phone = models.CharField(max_length=150, null=True)
     group = models.ForeignKey(Group, on_delete=models.SET_NULL, null=True, blank=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
-    
-    # def save(self, *args, **kwargs):
-    #     # if not self.pk:  # If this is a new object
-    #         # Create a new user
-    #     username = generate_unique_username_from_str(self.name)  
-    #     password = username
-    #     user = User.objects.create_user(username=username, password=password)
-    #     self.user = user
-    #     super().save(*args, **kwargs)
-    #     if self.group:
-    #         self.user.groups.add(self.group)  # Add the user to the group.
+    profile_pic = models.ImageField(upload_to='static/images',null=True, blank=True)
     
     def __str__(self) -> str:
         return f"Parent {self.name}"
@@ -65,6 +55,7 @@ class Teacher(models.Model):
     phone = models.CharField(max_length=150, null=True)
     group = models.ForeignKey(Group, on_delete=models.SET_NULL, null=True, blank=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
+    profile_pic = models.ImageField(upload_to='static/images' ,null=True, blank=True)
 
     def __str__(self) -> str:
         return f"Teacher {self.name}"
@@ -106,6 +97,7 @@ class Student(models.Model):
     year = models.ForeignKey(Year, on_delete=models.CASCADE, related_name='students')
     year_group = models.ForeignKey(YearGroup, on_delete=models.CASCADE, related_name='students')
     subjects = models.ManyToManyField('Subject', related_name='students')
+    profile_pic = models.ImageField(upload_to='static/images',null=True, blank=True)
    
     def __str__(self) -> str:
         return f"Student {self.first_name} {self.last_name}"
