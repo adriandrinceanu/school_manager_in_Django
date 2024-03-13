@@ -18,26 +18,15 @@
       </div>
       <div class="col-md-8">
         <div class="h-100 p-5  text-bg-light border rounded-1" >
-          <h2>My status wall</h2>
-                    {% for status in statuses %}
-                  <p>{{ status.content }}</p>
-                  <small>{{ status.timestamp }}</small>
-                  {% endfor %}
-                  <form method="post">
-                      {% csrf_token %}
-                      {{ form.as_p }}
-                      <button type="submit">Post</button>
-                  </form>
+          <h2>All Students</h2>
           <p>
-            {% for student in all_students %}
+            {% for status in statuses %}
                 <div class="p-1 gap-3 py-1 w-100 ">
                   <div class="list-group">
-                    <a href="{% url 'student_student_profile' username=student.user.username %}" class="list-group-item list-group-item-action d-flex  gap-3 py-1 bg-body-tertiary">
-                      <img src="{{ student.profile_pic.url }}"  width="50" height="50" class="rounded-circle flex-shrink-0">
                       <div class="d-flex py-1 w-100 justify-content-between ">
                         <div>
-                          <h6 class="mb-0">{{ student.first_name }} {{ student.last_name }}</h6>
-                          <p>{{ student.year }}, {{ student.year_group }}</p>
+                          <h6 class="mb-0">{{ status.content }}</h6>
+                          <p>{{ status.timestamp }}</p>
                         </div>
                       </div>
                     </a>

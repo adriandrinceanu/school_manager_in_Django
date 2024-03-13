@@ -1,5 +1,5 @@
 from django import forms
-from .models import StudentGrade, Grade, Subject
+from .models import StudentGrade, Grade, Subject, StatusUpdate
 
 class AddGradeForm(forms.ModelForm):
     class Meta:
@@ -22,3 +22,8 @@ class AddGradeForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         if self.teacher is not None:
             self.fields['subject'].queryset = self.teacher.subjects.all()
+            
+class StatusUpdateForm(forms.ModelForm):
+    class Meta:
+        model = StatusUpdate
+        fields = ['content']

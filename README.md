@@ -24,9 +24,9 @@ docker exec -it school_manager_in_django-web-1 bash
 
 To do:
 1. Models - Done (I'll revisit later)
-2. Views - In progress
-3. Urls
-4. Templates and design
-5. Top/Best of logic
+2. Views - First part done. 
+3. Urls - in progress
+4. Templates and design - in progress
+5. Top/Best of logic - to be implemented
 6. Chat system
 7. final grade prediction 

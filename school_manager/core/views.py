@@ -3,12 +3,12 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import login,logout,authenticate
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
-from .forms import AddGradeForm
+from .forms import AddGradeForm, StatusUpdateForm
 from django.db.models import Avg, Count
 from django.views import View
 from django.contrib import messages
 # Import your models here
-from .models import Parent, Teacher, Student, Subject, Grade, StudentGrade, Year, YearGroup, Homework
+from .models import Parent, Teacher, Student, Subject, Grade, StudentGrade, Year, YearGroup, Homework, StatusUpdate
 
 
 def home(request):
@@ -97,12 +97,34 @@ def teacher_student_detail(request, pk):
 
 def student_profile(request, username):
     student = get_object_or_404(Student,  user__username=username)
+    all_students = Student.objects.all()
     year = student.year
     year_group = student.year_group
     grades = student.studentgrade_set.all()
     teachers = student.teachers.all()
-    return render(request, 'student.html', {'student': student, 'year': year, 'year_group': year_group, 'grades': grades, 'teachers': teachers})
+    statuses = StatusUpdate.objects.filter(user=student.user).order_by('-timestamp')
+    if request.method == 'POST':
+        form = StatusUpdateForm(request.POST)
+        if form.is_valid():
+            status = form.save(commit=False)
+            status.user = request.user
+            status.save()
+            return redirect('student_profile', username=username)
+    else:
+        form = StatusUpdateForm()
+    return render(request, 'student.html', {'student': student, 'all_students': all_students, \
+                                            'year': year, 'year_group': year_group, 'grades': grades, \
+                                            'teachers': teachers, 'statuses': statuses, 'form': form})
 
+
+def student_student_profile(request, username):
+    student = get_object_or_404(Student,  user__username=username)
+    year = student.year
+    year_group = student.year_group
+    subjects = student.subjects.all()
+    statuses = StatusUpdate.objects.filter(user=student.user).order_by('-timestamp')
+    return redirect(request, 'student_profile.html', {'year': year, 'year_group': year_group, 'subjects': subjects, 'statuses': statuses} )
+    
 def parent_profile(request):
     parent = Parent.objects.get(user=request.user)
     children = parent.children.all()
