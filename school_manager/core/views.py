@@ -102,7 +102,6 @@ def student_profile(request, username):
     all_students = Student.objects.all()
     year = student.year
     year_group = student.year_group
-    grades = student.studentgrade_set.all()
     teachers = student.teachers.all()
     statuses = StatusUpdate.objects.filter(user=student.user).order_by('-timestamp')
     if request.method == 'POST':
@@ -115,8 +114,21 @@ def student_profile(request, username):
     else:
         form = StatusUpdateForm()
     return render(request, 'student.html', {'student': student, 'all_students': all_students, \
-                                            'year': year, 'year_group': year_group, 'grades': grades, \
+                                            'year': year, 'year_group': year_group, \
                                             'teachers': teachers, 'statuses': statuses, 'form': form})
+
+
+
+def student_profile_grades(request, username):
+    student = get_object_or_404(Student,  user__username=username)
+    all_students = Student.objects.all()
+    year = student.year
+    year_group = student.year_group
+    grades = student.studentgrade_set.all()
+    teachers = student.teachers.all()
+    return render(request, 'student_grades.html', {'student': student, 'all_students': all_students, \
+                                            'year': year, 'year_group': year_group, 'grades': grades, \
+                                            'teachers': teachers})
 
 
 @require_POST
