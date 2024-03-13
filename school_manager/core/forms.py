@@ -27,3 +27,8 @@ class StatusUpdateForm(forms.ModelForm):
     class Meta:
         model = StatusUpdate
         fields = ['content']
+        widgets = {
+            'content' : forms.TextInput(attrs={
+                'class': 'form-control',
+            }),
+        }
