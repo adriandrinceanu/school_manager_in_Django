@@ -13,27 +13,34 @@
           <h2>{{ student.first_name }} {{ student.last_name }}</h2>
           <p>Student</p>
           <hr class="styled-hr">
-          <p>Year: {{ year }}, Year Group: {{ year_group }}</p>
+          <p>{{ year }}, {{ year_group }}</p>
+          <p>Teachers: 
+          {% for teacher in student.teachers.all %}
+           {{teacher.name}}, 
+          {% endfor %}
+        </p>
         </div>
       </div>
       <div class="col-md-8">
         <div class="h-100 p-5  text-bg-light border rounded-1" >
-          <h2>All Students</h2>
-          <p>
-            {% for status in statuses %}
-                <div class="p-1 gap-3 py-1 w-100 ">
-                  <div class="list-group">
-                      <div class="d-flex py-1 w-100 justify-content-between ">
-                        <div>
-                          <h6 class="mb-0">{{ status.content }}</h6>
-                          <p>{{ status.timestamp }}</p>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
+          <h2>{{ student.first_name }}'s wall</h2>
+
+          {% for status in statuses %}
+          <div class="col ">
+            <div class="card shadow-sm text-bg-light border rounded-1">
+              <div class="card-body">
+                <h6 class="card-text">{{ status.content }}</h6>
+                <div class="d-flex justify-content-between align-items-center">
+                  <small class="text-body-secondary">{{ status.timestamp }}</small>
                 </div>
-            {% endfor %}
-          </p>
+              </div>
+            </div>
+          </div>
+          <br />
+          {% empty %}
+          <p>No status yet. {{ student.last_name }} did not post anything yet.</p>
+          {% endfor %}
+          
         </div>
       </div>
     </div>
