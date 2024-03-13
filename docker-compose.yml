@@ -17,9 +17,23 @@ services:
       - 8000:8000
     volumes:
       - ./school_manager:/school_manager/
+      - ./school_manager/collectstatic:/school_manager/collectstatic  # Path where Django collects static files
     environment:
       - DJANGO_SETTINGS_MODULE:school_manager.settings
     # links:
     #   - db
-    # depends_on:
-    #   - db
+    depends_on:
+      - redis
+
+  # nginx:
+  #   image: nginx:latest
+  #   volumes:
+  #     - ./nginx:/etc/nginx/conf.d
+  #     - ./school_manager/collectstatic:/school_manager/collectstatic
+  #   ports:
+  #     - 80:80
+  #   depends_on:
+  #     - web
+
+volumes:
+  static_volume:

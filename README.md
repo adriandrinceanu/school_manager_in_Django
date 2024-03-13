@@ -28,5 +28,5 @@ To do:
 3. Urls - in progress
 4. Templates and design - in progress
 5. Top/Best of logic - to be implemented
-6. Chat system
+6. Chat system - in progress
 7. final grade prediction 
