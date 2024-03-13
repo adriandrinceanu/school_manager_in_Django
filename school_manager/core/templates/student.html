@@ -17,16 +17,33 @@
       <div class="col-md-5">
         <div class="h-100 p-5  text-bg-light border rounded-1" >
           <h2>My status wall</h2>
+                  <div class="col ">
+                  <div class="card shadow-sm text-bg-light  rounded-1">
+                    <div class="card-body">
                     <form method="post">
                       {% csrf_token %}
                       {{ form.as_p }}
-                      <button type="submit">Post</button>
+                      <button class="btn btn-primary w-100 py-2" type="submit">Post</button>
                     </form>
-
-                    {% for status in statuses %}
-                  <p>{{ status.content }}</p>
-                  <small>{{ status.timestamp }}</small>
-                  {% endfor %}
+                    </div>
+                    </div>
+                  </div>
+                  <br />
+                  <hr class="styled-hr">
+       
+                  {% for status in statuses %}
+                    <div class="col ">
+                      <div class="card shadow-sm text-bg-light border rounded-1">
+                        <div class="card-body">
+                          <p class="card-text">{{ status.content }}</p>
+                          <div class="d-flex justify-content-between align-items-center">
+                            <small class="text-body-secondary">{{ status.timestamp }}</small>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <br />
+                    {% endfor %}
         </div>
       </div>
 
