@@ -7,6 +7,8 @@ from .forms import AddGradeForm, StatusUpdateForm
 from django.db.models import Avg, Count
 from django.views import View
 from django.contrib import messages
+from django.views.decorators.http import require_POST
+
 # Import your models here
 from .models import Parent, Teacher, Student, Subject, Grade, StudentGrade, Year, YearGroup, Homework, StatusUpdate
 
@@ -116,6 +118,12 @@ def student_profile(request, username):
                                             'year': year, 'year_group': year_group, 'grades': grades, \
                                             'teachers': teachers, 'statuses': statuses, 'form': form})
 
+
+@require_POST
+def delete_status(request, status_id):
+    status = get_object_or_404(StatusUpdate, id=status_id, user=request.user)
+    status.delete()
+    return redirect('student_profile', username=request.user.username)
 
 def student_student_profile(request, username):
     student = get_object_or_404(Student,  user__username=username)
