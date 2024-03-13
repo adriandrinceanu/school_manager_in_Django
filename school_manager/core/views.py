@@ -143,7 +143,10 @@ def student_student_profile(request, username):
     year_group = student.year_group
     subjects = student.subjects.all()
     statuses = StatusUpdate.objects.filter(user=student.user).order_by('-timestamp')
-    return render(request, 'student_profile.html', {'student': student, 'year': year, 'year_group': year_group, 'subjects': subjects, 'statuses': statuses} )
+    room_name = f'{username}_chatroom'  # Create a unique room name for each user
+    return render(request, 'student_profile.html', {'student': student, 'year': year, \
+                                                    'year_group': year_group, 'subjects': subjects, \
+                                                        'statuses': statuses, 'room_name': room_name} )
     
 def parent_profile(request):
     parent = Parent.objects.get(user=request.user)

@@ -168,3 +168,17 @@ LOGIN_URL = 'login'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  
+
+# chat functionality
+
+ASGI_APPLICATION = 'school_manager.routing.application'
+
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('redis', 6379)],  # Used service name defined in docker-compose.yml
+        },
+    },
+}
