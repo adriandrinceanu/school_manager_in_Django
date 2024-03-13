@@ -131,7 +131,7 @@ def student_student_profile(request, username):
     year_group = student.year_group
     subjects = student.subjects.all()
     statuses = StatusUpdate.objects.filter(user=student.user).order_by('-timestamp')
-    return redirect(request, 'student_profile.html', {'year': year, 'year_group': year_group, 'subjects': subjects, 'statuses': statuses} )
+    return render(request, 'student_profile.html', {'student': student, 'year': year, 'year_group': year_group, 'subjects': subjects, 'statuses': statuses} )
     
 def parent_profile(request):
     parent = Parent.objects.get(user=request.user)
