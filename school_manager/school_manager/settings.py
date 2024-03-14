@@ -45,17 +45,20 @@ INSTALLED_APPS = [
     "tinymce",
     "storages",
     'django.contrib.humanize',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "debug_toolbar.middleware.DebugToolbarMiddleware",
+    
 ]
 
 if DEBUG:
@@ -182,5 +185,22 @@ CHANNEL_LAYERS = {
         'CONFIG': {
             "hosts": [('redis', 6379)],  # Used service name defined in docker-compose.yml
         },
+        'MIDDLEWARE': [
+            'channels.sessions.SessionMiddleware',  # Channels' SessionMiddleware
+            'channels.middleware.AuthMiddlewareStack',  # Channels' AuthenticationMiddleware
+            'channels.middleware.CookieMiddleware',  # Channels' CookieMiddleware
+        ],
     },
 }
+
+CORS_ORIGIN_WHITELIST = [
+    "http://localhost:8000",
+    "http://127.0.0.1:9000",
+    "http://172.19.0.1",
+    "http://0.0.0.0:8000",
+    "http://0.0.0.0:6379",   
+]
+CORS_ALLOW_CREDENTIALS = True
+
+SESSION_COOKIE_DOMAIN = 'localhost'
+SESSION_COOKIE_SECURE = False
