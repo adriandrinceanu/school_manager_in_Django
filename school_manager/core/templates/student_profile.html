@@ -78,24 +78,28 @@
       );
 
       socket.onmessage = function(e) {
-        console.log('Received data:', e.data);  // Log the raw data received
-        var data = JSON.parse(e.data);
-        var message = data['message'];
-        var username = data['username'];
-        var timestamp = data['timestamp'];
-        // document.querySelector('#chat-log').value += (username + ' at ' + timestamp + ': ' + message + '\n');
+        try {
+            console.log('Received data:', e.data);  // Log the raw data received
+            var data = JSON.parse(e.data);
+            console.log('Parsed data:', data);  // Log the parsed data
 
-        // Log the parsed message
-        console.log('Parsed message:', username + ' at ' + timestamp + ': ' + message);
+            var message = data['message'];
+            var username = data['username'];
+            var timestamp = data['timestamp'];
 
-        // Update the chat log
-        var chatLog = document.querySelector('#chat-log');
-        chatLog.value += (username + ' at ' + timestamp + ': ' + message + '\n');
+            // Log the parsed message
+            console.log('Parsed message:', username + ' at ' + timestamp + ': ' + message);
 
-        // Log the updated chat log value
-        console.log('Updated chat log:', chatLog.value);
-        
-        };
+            // Update the chat log
+            var chatLog = document.querySelector('#chat-log');
+            chatLog.value += (username + ' at ' + timestamp + ': ' + message + '\n');
+
+            // Log the updated chat log value
+            console.log('Updated chat log:', chatLog.value);
+        } catch (error) {
+            console.error('Error in onmessage event handler:', error);
+        }
+      };
 
   socket.onclose = function(e) {
       console.error('Chat socket closed unexpectedly');

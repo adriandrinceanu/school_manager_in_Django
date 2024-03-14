@@ -5,7 +5,7 @@ from django.urls import path, include
 application = ProtocolTypeRouter({
     'websocket': AuthMiddlewareStack(
         URLRouter([
-            path("chat/", include("core.routing")),
+            path("", include("core.routing")),
         ]),
     ),
 })

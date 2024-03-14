@@ -24,6 +24,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         from .models import Message 
         self.room_name = self.scope['url_route']['kwargs']['room_name']
         self.room_group_name = 'chat_%s' % self.room_name
+        logger.info(f"Room group: {self.room_group_name}")
         # Accept the WebSocket connection
         await self.accept()
         
@@ -45,6 +46,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             self.room_group_name,
             self.channel_name
         )
+        logger.info(f"Joined room group: {self.room_group_name}")
 
     async def disconnect(self, close_code):
         # Leave room group
@@ -52,7 +54,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             self.room_group_name,
             self.channel_name
         )
-        logger.info(f"Disconnected to {self.room_name}")
+        logger.info(f"Left room group: {self.room_group_name}")
     
         
         

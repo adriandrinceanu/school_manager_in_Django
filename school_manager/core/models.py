@@ -9,7 +9,6 @@ class Message(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     room_name = models.CharField(max_length=255, null=True, blank=True)  
 
-
     def __str__(self):
         return self.user.username if self.user else 'Anonymous'
 

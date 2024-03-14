@@ -204,3 +204,19 @@ CORS_ALLOW_CREDENTIALS = True
 
 SESSION_COOKIE_DOMAIN = 'localhost'
 SESSION_COOKIE_SECURE = False
+
+
+#display logger messages to check connections in consumers.py
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO',
+    },
+}
