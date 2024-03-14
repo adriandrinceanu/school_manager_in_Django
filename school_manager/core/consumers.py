@@ -1,6 +1,12 @@
 from channels.generic.websocket import AsyncWebsocketConsumer
 from asgiref.sync import sync_to_async
 import json
+import logging
+from datetime import datetime
+
+
+logger = logging.getLogger(__name__)
+
 
 class ChatConsumer(AsyncWebsocketConsumer):
     @sync_to_async
@@ -32,6 +38,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 'username': username,
                 'timestamp': str(message.timestamp),
             }))
+        logger.info(f"Connected to {self.room_name}")
 
         # Join room group
         await self.channel_layer.group_add(
@@ -39,24 +46,15 @@ class ChatConsumer(AsyncWebsocketConsumer):
             self.channel_name
         )
 
-
     async def disconnect(self, close_code):
         # Leave room group
         await self.channel_layer.group_discard(
             self.room_group_name,
             self.channel_name
         )
-    
+        logger.info(f"Disconnected to {self.room_name}")
     
         
-    async def chat_message(self, event):
-        # This method is called whenever a 'chat_message' is received
-        message = event['message']
-
-        # Send the message to the WebSocket
-        await self.send(text_data=json.dumps({
-            'message': message
-        }))
         
     # Receive message from WebSocket
     async def receive(self, text_data):
@@ -74,11 +72,23 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 'message': message
             }
         )
+        logger.info(f"Received message: {message}")
+        
+    async def chat_message(self, event):
+        # This method is called whenever a 'chat_message' is received
+        message = event['message']
+        username = self.scope["user"].username
+        timestamp = str(datetime.now())
 
-        # Send message to WebSocket
+        # Send the message to the WebSocket
         await self.send(text_data=json.dumps({
-            'message': message
+            'message': message,
+            'username': username,
+            'timestamp': timestamp
         }))
+        logger.info(f"Sending message: {message}")
+
+        
         
     @sync_to_async    
     def save_message(self, message):
