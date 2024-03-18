@@ -1,26 +1,72 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Home</title>
-</head>
-<body>
-    <h1>Home</h1>
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
 
-    <table>
-        <thead>
-            <tr>
-                <th>First Year</th>
-                <th>Second Year</th>
-                <th>Third year</th>
-                <th>Fourth year</th>
-                </tr>
-        </thead>
-        <tbody>
-            {% for year in years %}
-            <td>{{ year.year }}</td>
-            {% endfor %}
-        </tbody>
-    </table>
-</body>
-</html>
+<main class=" w-100 m-auto">
+
+    <section class="py-5 text-center container">
+        <div class="video-background">
+          <div class="video-foreground">
+            <iframe src="https://www.youtube.com/embed/tpflPFyCIkY?controls=0&showinfo=0&rel=0&autoplay=1&loop=1&mute=1&playlist=tpflPFyCIkY&start=25" frameborder="0" allowfullscreen></iframe>
+          </div>
+        </div>
+           
+            
+            <div class="row py-lg-5">
+                <h1 class="fw-light">Adrian's SchoolBook</h1>
+                <div class="col-lg-4">
+                  <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="var(--bs-secondary-color)"/></svg>
+                  <h2 class="fw-normal">Teachers</h2>
+                  <p>Please login withe the provided credentials as a teacher. The password is the same as the username</p>
+                  <input type="text" value="adi_adi" id="myInput" style="display: none;">
+                  <button class="btn btn-secondary" onclick="copyToClipboard()">Copy credentials &raquo;</button>
+                  
+
+                </div><!-- /.col-lg-4 -->
+                <div class="col-lg-4">
+                  <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="var(--bs-secondary-color)"/></svg>
+                  <h2 class="fw-normal">Students</h2>
+                  <p>Another exciting bit of representative placeholder content. This time, we've moved on to the second column.</p>
+                  <p><a class="btn btn-secondary" href="#">View details &raquo;</a></p>
+                </div><!-- /.col-lg-4 -->
+                <div class="col-lg-4">
+                  <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="var(--bs-secondary-color)"/></svg>
+                  <h2 class="fw-normal">Parents</h2>
+                  <p>And lastly this, the third column of representative placeholder content.</p>
+                  <p><a class="btn btn-secondary" href="#">View details &raquo;</a></p>
+                </div><!-- /.col-lg-4 -->
+              </div><!-- /.row -->
+
+              <div class="col-lg-6 col-md-8 mx-auto">
+              <a href="https://github.com/adriandrinceanu" target="_blank" class="btn btn-primary my-2">My GitHub</a>
+              <a href="{% url 'login' %}" class="btn btn-outline-primary my-2">Login</a>
+            </p>
+          </div>
+      </section>
+
+      
+    
+</main>
+
+<!-- The JavaScript function -->
+<script>
+    function copyToClipboard() {
+      /* Get the text field */
+      var copyText = document.getElementById("myInput");
+    
+      /* Select the text field */
+      copyText.select();
+      copyText.setSelectionRange(0, 99999); /* For mobile devices */
+    
+      /* Copy the text inside the text field */
+      navigator.clipboard.writeText(copyText.value);
+    
+      /* Alert the copied text */
+      alert("Copied the text: " + copyText.value);
+    }
+    </script>
+
+  {% endblock %}
+
+
+
