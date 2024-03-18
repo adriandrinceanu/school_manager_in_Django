@@ -3,6 +3,8 @@ from asgiref.sync import sync_to_async
 import json
 import logging
 from datetime import datetime
+from django.contrib.humanize.templatetags.humanize import naturaltime
+
 
 
 logger = logging.getLogger(__name__)
@@ -34,10 +36,11 @@ class ChatConsumer(AsyncWebsocketConsumer):
         
         for message in past_messages:
             username = await self.get_username()
+            timestamp = str(naturaltime(message.timestamp))  #Convert the timestamp to natural time
             await self.send(text_data=json.dumps({
                 'message': message.content,
                 'username': username,
-                'timestamp': str(message.timestamp),
+                'timestamp': timestamp
             }))
         logger.info(f"Connected to {self.room_name}")
 
@@ -62,16 +65,18 @@ class ChatConsumer(AsyncWebsocketConsumer):
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
         message = text_data_json['message']
+        username = text_data_json['username']  #Extract the username
         
         # Save the message to the database
-        await self.save_message(message)
+        await self.save_message(username, message)
 
         # Send message to room group
         await self.channel_layer.group_send(
             self.room_group_name,
             {
                 'type': 'chat_message',
-                'message': message
+                'message': message,
+                'username': username
             }
         )
         logger.info(f"Received message: {message}")
@@ -79,9 +84,12 @@ class ChatConsumer(AsyncWebsocketConsumer):
     async def chat_message(self, event):
         # This method is called whenever a 'chat_message' is received
         message = event['message']
-        username = self.scope["user"].username
+        # username = self.scope["user"].username # for selfkeeping
+        username = event['username']
         now = datetime.now()
-        timestamp =  now.strftime("%Y-%m-%d %H:%M")
+        
+         # Humanize the timestamp
+        timestamp = str(naturaltime(now))
 
         # Send the message to the WebSocket
         await self.send(text_data=json.dumps({
@@ -94,9 +102,11 @@ class ChatConsumer(AsyncWebsocketConsumer):
         
         
     @sync_to_async    
-    def save_message(self, message):
+    def save_message(self, username, message):
         from .models import Message 
-        user = self.scope["user"]
+        from django.contrib.auth.models import User
+        # user = self.scope["user"]
+        user = User.objects.get(username=username)
         if user.is_authenticated:
             Message.objects.create(user=user, content=message, chat_id=self.room_name)
         else:

@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 
-from .models import Principal, Parent, Teacher, Student, Year, YearGroup, Subject, Grade, Homework,StudentGrade
+from .models import Principal, Parent, Teacher, Student, Year, YearGroup, Subject, Grade, Homework,StudentGrade, Message
 
 def generate_unique_username_from_str(name):
     # Create the initial username
@@ -81,5 +81,6 @@ admin.site.register(Grade)
 admin.site.register(Year)
 admin.site.register(YearGroup)
 admin.site.register(Homework)
+admin.site.register(Message)
 
 
