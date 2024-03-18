@@ -22,14 +22,14 @@ class ChatConsumer(AsyncWebsocketConsumer):
     
     async def connect(self):
         from .models import Message 
-        self.room_name = self.scope['url_route']['kwargs']['room_name']
+        self.room_name = self.scope['url_route']['kwargs']['username'] + '_' + self.scope['url_route']['kwargs']['username2']
         self.room_group_name = 'chat_%s' % self.room_name
         logger.info(f"Room group: {self.room_group_name}")
         # Accept the WebSocket connection
         await self.accept()
         
         # Load past messages from the database
-        past_messages = await sync_to_async(Message.objects.filter)(room_name=self.room_name)
+        past_messages = await sync_to_async(Message.objects.filter)(chat_id=self.room_name)
         past_messages = await sync_to_async(list)(past_messages.order_by('timestamp'))
         
         for message in past_messages:
@@ -80,7 +80,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
         # This method is called whenever a 'chat_message' is received
         message = event['message']
         username = self.scope["user"].username
-        timestamp = str(datetime.now())
+        now = datetime.now()
+        timestamp =  now.strftime("%Y-%m-%d %H:%M")
 
         # Send the message to the WebSocket
         await self.send(text_data=json.dumps({
@@ -97,7 +98,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         from .models import Message 
         user = self.scope["user"]
         if user.is_authenticated:
-            Message.objects.create(user=user, content=message, room_name=self.room_name)
+            Message.objects.create(user=user, content=message, chat_id=self.room_name)
         else:
             print("Error: Unauthenticated user")
         

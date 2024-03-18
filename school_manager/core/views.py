@@ -138,16 +138,49 @@ def delete_status(request, status_id):
     return redirect('student_profile', username=request.user.username)
 
 def student_student_profile(request, username):
+    # Get the student whose profile we're viewing
     student = get_object_or_404(Student,  user__username=username)
+    
+    # Get all students
+    all_students = Student.objects.all()
+    
+    # Get the year and year group of the student
     year = student.year
     year_group = student.year_group
-    subjects = student.subjects.all()
-    statuses = StatusUpdate.objects.filter(user=student.user).order_by('-timestamp')
-    room_name = f'{username}_chatroom'  # Create a unique room name for each user
-    return render(request, 'student_profile.html', {'student': student, 'year': year, \
-                                                    'year_group': year_group, 'subjects': subjects, \
-                                                        'statuses': statuses, 'room_name': room_name} )
     
+    # Get the teachers of the student
+    teachers = student.teachers.all()
+    
+    # Get the status updates of the student
+    statuses = StatusUpdate.objects.filter(user=student.user).order_by('-timestamp')
+    
+    # Get the username of the currently logged-in user
+    my_username = request.user.username
+    
+    # Sort the usernames alphabetically
+    sorted_usernames = sorted([my_username, username])
+
+    # Construct the room name
+    room_name = f'{sorted_usernames[0]}_{sorted_usernames[1]}_chatroom'
+
+    if request.method == 'POST':
+        form = StatusUpdateForm(request.POST)
+        if form.is_valid():
+            status = form.save(commit=False)
+            status.user = request.user
+            status.save()
+
+            return redirect('student_student_profile', username=username)
+    else:
+        form = StatusUpdateForm()
+
+    return render(request, 'student_profile.html', {'student': student, 'all_students': all_students, \
+                                            'year': year, 'year_group': year_group, \
+                                            'teachers': teachers, 'statuses': statuses, 'form': form, 'my_username': my_username, \
+                                                'room_name': room_name})
+
+
+
 def parent_profile(request):
     parent = Parent.objects.get(user=request.user)
     children = parent.children.all()
