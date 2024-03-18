@@ -3,6 +3,49 @@
 
 {% block content %}
 
+<style>
+  .chat-bubble {
+    position: relative;
+    border-radius: .2em;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.chat-bubble:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border: 1px solid #DEE2E6;
+    border-bottom-color: #f0f0f0;
+    border-top: 0;
+    border-left: 0;
+    margin-left: -10px;
+    margin-top: -20px;
+}
+
+.chat-bubble p {
+    margin: 0;
+    padding: 0;
+}
+
+.chat-bubble small {
+    font-size: 0.8em;
+    color: #888;
+}
+
+.chat-bubble.outgoing{
+    text-align: left;
+}
+
+.chat-bubble.incoming {
+    text-align: right;
+}
+
+</style>
+
 <main>
   <div class="container py-4">
   
@@ -51,21 +94,17 @@
               Chat with {{ student.last_name }}
           </div>
           <div class="card-body">
-              <div style="height: 200px; overflow-y: auto;">
+              <div >
                   <!-- Chat messages will go here -->
                   <!-- <textarea id="chat-log" readonly></textarea> -->
-                  <div id="chat-log"></div>
+                  <div style="height: 200px; overflow-y: auto;" id="chat-log"></div>
               </div>
           </div>
           <div class="card-footer">
-            <form id="chat-form" method="POST" action="{% url 'student_student_profile' username=student.user.username %}">
-              {% csrf_token %}
-                <input type="hidden" name="username2" value="{{ student2.user.username }}">
-                <div class="input-group">
-                  <input id="chat-message-input" type="text" class="form-control" placeholder="Type a message...">
-                  <button id="chat-message-submit"  class="btn btn-primary" type="submit">Send</button>
-              </div>
-          </form>
+            <div class="input-group">
+              <input id="chat-message-input" type="text" class="form-control" placeholder="Type a message...">
+              <button id="chat-message-submit" class="btn btn-primary" type="button">Send</button>
+            </div>
           </div>
       </div>
   </div>
@@ -73,9 +112,21 @@
 </main>
 
 <script>
-  // var username = "{{ student.user.username }}";
-  // var username2 = "{{ student2.user.username }}";
-  // Assume 'username1' and 'username2' are the two usernames
+
+// Function to scroll to the bottom of the chatbox
+function scrollToBottom() {
+    var chatLog = document.querySelector('#chat-log');
+    setTimeout(function() {
+        chatLog.scrollTop = chatLog.scrollHeight;
+    }, 0);
+    console.log("Scroll Height:", chatLog.scrollHeight);
+}
+
+// Call scrollToBottom after the messages have been loaded
+window.onload = function() {
+    setTimeout(scrollToBottom, 500);  // Adjust the delay as needed
+};
+
   var my_username = "{{ my_username }}";
   var username = "{{ student.user.username }}";
   var sortedUsernames = [my_username, username].sort();
@@ -85,9 +136,6 @@
 
   var socket = new WebSocket(
       'ws://' + window.location.host +
-      // '/ws/chat/{{ room_name }}/',
-      // '/ws/chat/{{ student.user.username }}/{{ student2.user.username }}/',
-      // '/ws/chat/' + username + '/' + username2 + '/',
       '/ws/chat/' + room_name + '/',
       [],
       {credentials: 'include'} 
@@ -106,13 +154,38 @@
             // Log the parsed message
             console.log('Parsed message:', username + ' , ' + timestamp + ': ' + message);
 
+           // Create a new chat bubble element
+            var chatBubble = document.createElement('div');
+            chatBubble.className = 'chat-bubble';
+
+
+          // Add a class to the chat bubble depending on the username
+            if (username === my_username) {
+                chatBubble.classList.add('outgoing');
+            } else {
+                chatBubble.classList.add('incoming');
+            }
+
             // Create a new message element
             var messageElement = document.createElement('p');
-            messageElement.textContent = username + ' , ' + timestamp + ': ' + message;
+            messageElement.textContent = message;
+            chatBubble.appendChild(messageElement);
+
+            // Create a new timestamp element
+            var timestampElement = document.createElement('small');
+            timestampElement.textContent = username + ' , ' + timestamp;
+            chatBubble.appendChild(timestampElement);
+
 
             // Add the message element to the chat log
             var chatLog = document.querySelector('#chat-log');
-            chatLog.appendChild(messageElement);
+            chatLog.appendChild(chatBubble);
+
+            const observer = new MutationObserver(function(mutations) {
+              scrollToBottom();
+            });
+
+            observer.observe(chatLog, { childList: true });
 
             // Log the updated chat log value
             console.log('Updated chat log:', chatLog.innerHTML);
@@ -145,7 +218,7 @@
     messageInputDom.value = '';
 };
 
-document.querySelector('#chat-message-input').onkeyup = function(e) {
+document.querySelector('#chat-message-input').onkeydown = function(e) {
     if (e.keyCode === 13) {  // enter, return
         e.preventDefault();
 
@@ -160,7 +233,7 @@ document.querySelector('#chat-message-input').onkeyup = function(e) {
             'message': message,
             'username': my_username //include the sender's username. mine I mean.
         }));
-        e.stopPropagation();
+        // e.stopPropagation();
 
         messageInputDom.value = '';
     }
