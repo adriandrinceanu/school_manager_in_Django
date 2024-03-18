@@ -5,6 +5,7 @@ from django.contrib.auth.models import User, Group, AbstractUser
 
 class Message(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    username = models.CharField(max_length=255, null=True, blank=True)
     content = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
     chat_id = models.CharField(max_length=255, null=True, blank=True)  
