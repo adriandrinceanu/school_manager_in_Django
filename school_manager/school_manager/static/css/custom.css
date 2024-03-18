@@ -62,11 +62,22 @@ body {
     border-color: #166fe5;
 }
 
+.btn-outline-primary {
+  background-color: #0866ff;
+  border-color: #fff;
+  color: #fff;
+}
+
+.btn-outline-primary:hover {
+  background-color: #a7c9ff;
+  border-color: #fff;
+}
+
 /* Inputs */
 .form-control {
     border: 1px solid #dddf;
     box-shadow: none;
-    color: #1c1e21;
+    color: #1c1e21 !important;
     background-color: #fff !important;
 }
 .form-floating{
@@ -181,3 +192,20 @@ hr {
         background: rgba(0,0,0,0.7);
         overflow: hidden;
     }
+
+    .btn-outline-secondary {
+      --bs-btn-color: #fff !important;
+      --bs-btn-border-color: #fff !important;
+      --bs-btn-hover-color: #fff !important;
+      --bs-btn-hover-bg: #a7c9ff !important;
+      --bs-btn-hover-border-color: #a7c9ff !important;
+      --bs-btn-focus-shadow-rgb: 108, 117, 125;
+      --bs-btn-active-color: #fff !important;
+      --bs-btn-active-bg: #6c757d !important;
+      --bs-btn-active-border-color: #a7c9ff !important;
+      --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+      --bs-btn-disabled-color: #a7c9ff !important;
+      --bs-btn-disabled-bg: transparent;
+      --bs-btn-disabled-border-color: #a7c9ff !important;
+      --bs-gradient: none;
+  }
