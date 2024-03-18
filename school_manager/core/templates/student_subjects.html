@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<main>
+  <div class="container py-4">
+    <div class="row  ">
+      <div class="col-md-4" style="height: 630px;  position: sticky; top: 50px;" >
+        <div class="h-100 p-5 text-bg-light rounded-1 border">
+          <img style='width:260px; height:auto;' src="{{ student.profile_pic.url }}" class="card-img-top" alt="{{ student.first_name }} {{ student.last_name }}">
+          <h2>{{ student.first_name }} {{ student.last_name }}</h2>
+          <p>Student</p>
+          <hr class="styled-hr">
+          <p>{{ year }}, {{ year_group }}</p>
+          {% for teacher in student.teachers.all %}
+            <p>Teachers: {{teacher.name}}, </p>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="col-md-5">
+        <div class="h-100 p-5  text-bg-light border rounded-1" >
+          <h2>My Subjects</h2>             
+                  <hr class="styled-hr">
+
+                  <div class="p-1 gap-3 py-1 w-100 ">
+                    <div class="list-group">
+                        {% for subject in subjects %}
+                        <div class="d-flex py-1 w-100 justify-content-between ">
+                            <div>
+                                <h6 class="mb-0">{{ subject.name }}</h6>
+                            </div>
+                        </div>
+                        <hr class="styled-hr">
+                        {% endfor %}
+                    </div>
+                </div>
+       
+        </div>
+      </div>
+
+    <!-- sidebar students -->
+    <div class="col-md-3 d-flex flex-column align-items-stretch flex-shrink-0 bg-body-tertiary rounded-1">
+      <a href=# class="d-flex align-items-center flex-shrink-0 p-3 link-body-emphasis text-decoration-none border-bottom">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-people" viewBox="0 0 16 16">
+          <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1zm-7.978-1L7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002-.014.002zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4m3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0M6.936 9.28a6 6 0 0 0-1.23-.247A7 7 0 0 0 5 9c-4 0-5 3-5 4q0 1 1 1h4.216A2.24 2.24 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816M4.92 10A5.5 5.5 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275ZM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0m3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4"/>
+        </svg>
+        <span class="fs-5 fw-semibold"> &nbsp; All students</span>
+      </a>
+      <div class="list-group list-group-flush border-bottom scrollarea">
+        <a href="#" class="list-group-item list-group-item-action active py-3 lh-sm" aria-current="true">
+          <div class="d-flex w-100 align-items-center justify-content-between">
+            <strong class="mb-1">Chat freely with your peers</strong>
+          </div>
+          <div class="col-10 mb-1 small">Ask about homeworks, teachers, subjects or anything you want. Keep it civilized.</div>
+        </a>
+        
+        {% for student in all_students %}
+          <a href="{% url 'student_student_profile' username=student.user.username %}" class="list-group-item list-group-item-action py-3 lh-sm">
+            <div class="d-flex w-100 justify-content-between">
+              <img src="{{ student.profile_pic.url }}"  width="32" height="32" class="rounded-circle flex-shrink-0">
+              <strong class="mb-1">{{ student.first_name }} {{ student.last_name }}</strong>
+              <small class="text-body-secondary">{{ student.year_group }}</small>
+            </div>
+            <div class="col-10 mb-1 small">{{ student.year }}</div>
+          </a>
+        {% endfor %}
+
+      </div>
+    </div>
+</div>
+</main>
+{% endblock %}
