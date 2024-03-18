@@ -34,8 +34,10 @@ class ChatConsumer(AsyncWebsocketConsumer):
         past_messages = await sync_to_async(Message.objects.filter)(chat_id=self.room_name)
         past_messages = await sync_to_async(list)(past_messages.order_by('timestamp'))
         
+        
         for message in past_messages:
-            username = await self.get_username()
+            # username = await self.get_username() #old username retrieval. it returned the current username of the logged user.
+            username = message.username   # Get the username from the message
             timestamp = str(naturaltime(message.timestamp))  #Convert the timestamp to natural time
             await self.send(text_data=json.dumps({
                 'message': message.content,
@@ -108,7 +110,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         # user = self.scope["user"]
         user = User.objects.get(username=username)
         if user.is_authenticated:
-            Message.objects.create(user=user, content=message, chat_id=self.room_name)
+            Message.objects.create(user=user, username=username, content=message, chat_id=self.room_name)  # Add username=username
         else:
             print("Error: Unauthenticated user")
         
