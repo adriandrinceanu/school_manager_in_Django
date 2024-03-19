@@ -1,6 +1,7 @@
 FROM python:3.12 AS base
 
 # Install dependencies
+RUN apt-get update && apt-get install build-essential graphviz graphviz-dev --assume-yes
 COPY ./requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 RUN pip install uvicorn[standard]

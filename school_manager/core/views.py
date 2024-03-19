@@ -283,30 +283,3 @@ def parent_profile(request, username):
 
     return render(request, 'parent.html', {'parent': parent, 'students': students, 'grades': grades, 'teachers': teachers})
 
-
-
-# Best student per year
-class BestStudentPerYearView(View):
-    def get(self, request, *args, **kwargs):
-        year = request.GET.get('year')
-        best_student = Student.objects.filter(year__year=year).annotate(avg_grade=Avg('studentgrade__grade')).order_by('-avg_grade').first()
-        return render(request, 'best_student.html', {'best_student': best_student})
-
-# Best student by class/group
-class BestStudentByGroupView(View):
-    def get(self, request, *args, **kwargs):
-        group = request.GET.get('group')
-        best_student = Student.objects.filter(group__name=group).annotate(avg_grade=Avg('studentgrade__grade')).order_by('-avg_grade').first()
-        return render(request, 'best_student.html', {'best_student': best_student})
-
-# Top 10 students
-class TopStudentsView(View):
-    def get(self, request, *args, **kwargs):
-        top_students = Student.objects.annotate(avg_grade=Avg('studentgrade__grade')).order_by('-avg_grade')[:10]
-        return render(request, 'top_students.html', {'top_students': top_students})
-
-# Top teachers
-class TopTeachersView(View):
-    def get(self, request, *args, **kwargs):
-        top_teachers = Teacher.objects.annotate(num_top_students=Count('pupils__studentgrade__grade', filter=Q(studentgrade__grade__gte=90))).order_by('-num_top_students')
-        return render(request, 'top_teachers.html', {'top_teachers': top_teachers})

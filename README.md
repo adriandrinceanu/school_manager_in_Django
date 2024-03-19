@@ -23,10 +23,10 @@ Chat system between students. Only accesible from student profile page, which me
 docker exec -it school_manager_in_django-web-1 bash
 
 To do:
-1. Models - Done (I'll revisit later)
-2. Views - First part done. 
-3. Urls - in progress
-4. Templates and design - in progress
-5. Top/Best of logic - to be implemented
+1. Models - DONE 
+2. Views -DONE
+3. Urls - DONE
+4. Templates and design - DONE
+5. Top/Best of logic - half way there
 6. Chat system - DONE
-7. final grade prediction 
+7. final grade prediction - not yet started
