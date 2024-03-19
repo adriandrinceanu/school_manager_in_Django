@@ -14,26 +14,33 @@
             
             <div class="row py-lg-5">
                 <h1 class="fw-light">Adrian's SchoolBook</h1>
+                <p>This app is what would happen if Facebook was built by just 1 person &#128513;</p>
+                <br />
                 <div class="col-lg-4">
-                  <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="var(--bs-secondary-color)"/></svg>
+                  <img class="bd-placeholder-img rounded-circle" width="140" height="140" src="/media/static/images/coman_andrei.jpeg" alt="Teacher">                  
                   <h2 class="fw-normal">Teachers</h2>
-                  <p>Please login withe the provided credentials as a teacher. The password is the same as the username</p>
-                  <input type="text" value="adi_adi" id="myInput" style="display: none;">
-                  <button class="btn btn-secondary" onclick="copyToClipboard()">Copy credentials &raquo;</button>
+                  <p>Please login with the provided credentials as a teacher. The password is the same as the username.</p>
+                  <input type="text" value="coman_andrei" id="myInput" style="display: none;">
+                  <button class="btn btn-secondary" onclick="copyToClipboardTeacher()">Copy credentials &raquo;</button>
                   
 
                 </div><!-- /.col-lg-4 -->
                 <div class="col-lg-4">
-                  <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="var(--bs-secondary-color)"/></svg>
+                  <img class="bd-placeholder-img rounded-circle" width="140" height="140" src="/media/static/images/280402653_5480872945280312_3852524378866026897_n.jpg" alt="Student"> 
                   <h2 class="fw-normal">Students</h2>
-                  <p>Another exciting bit of representative placeholder content. This time, we've moved on to the second column.</p>
-                  <p><a class="btn btn-secondary" href="#">View details &raquo;</a></p>
+                  <p>Students can chat with each other. You can test this by logging in with 2 users from different browsers.</p>
+                  <input type="text" value="drinceanu_adrian" id="myStudent1" style="display: none;">
+                  <button class="btn btn-secondary" onclick="copyToClipboardStudent1()">Copy Student1 &raquo;</button>
+
+                  <input type="text" value="popescu_gabriela" id="myStudent2" style="display: none;">
+                  <button class="btn btn-secondary" onclick="copyToClipboardStudent2()">Copy Student2 &raquo;</button>
                 </div><!-- /.col-lg-4 -->
                 <div class="col-lg-4">
-                  <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="var(--bs-secondary-color)"/></svg>
+                  <img class="bd-placeholder-img rounded-circle" width="140" height="140" src="/media/static/images/drinceanu_andrei.jpg" alt="Teacher">                  
                   <h2 class="fw-normal">Parents</h2>
-                  <p>And lastly this, the third column of representative placeholder content.</p>
-                  <p><a class="btn btn-secondary" href="#">View details &raquo;</a></p>
+                  <p>Please login with the provided credentials as a parent. The password is the same as the username.</p>
+                  <input type="text" value="drinceanu_andrei" id="myParent" style="display: none;">
+                  <button class="btn btn-secondary" onclick="copyToClipboardParent()">Copy credentials &raquo;</button>
                 </div><!-- /.col-lg-4 -->
               </div><!-- /.row -->
 
@@ -50,7 +57,7 @@
 
 <!-- The JavaScript function -->
 <script>
-    function copyToClipboard() {
+    function copyToClipboardTeacher() {
       /* Get the text field */
       var copyText = document.getElementById("myInput");
     
@@ -64,6 +71,53 @@
       /* Alert the copied text */
       alert("Copied the text: " + copyText.value);
     }
+
+    function copyToClipboardStudent1() {
+      /* Get the text field */
+      var copyText = document.getElementById("myStudent1");
+    
+      /* Select the text field */
+      copyText.select();
+      copyText.setSelectionRange(0, 99999); /* For mobile devices */
+    
+      /* Copy the text inside the text field */
+      navigator.clipboard.writeText(copyText.value);
+    
+      /* Alert the copied text */
+      alert("Copied the text: " + copyText.value);
+    }
+
+    function copyToClipboardStudent2() {
+      /* Get the text field */
+      var copyText = document.getElementById("myStudent2");
+    
+      /* Select the text field */
+      copyText.select();
+      copyText.setSelectionRange(0, 99999); /* For mobile devices */
+    
+      /* Copy the text inside the text field */
+      navigator.clipboard.writeText(copyText.value);
+    
+      /* Alert the copied text */
+      alert("Copied the text: " + copyText.value);
+    }
+
+
+    function copyToClipboardParent() {
+      /* Get the text field */
+      var copyText = document.getElementById("myParent");
+    
+      /* Select the text field */
+      copyText.select();
+      copyText.setSelectionRange(0, 99999); /* For mobile devices */
+    
+      /* Copy the text inside the text field */
+      navigator.clipboard.writeText(copyText.value);
+    
+      /* Alert the copied text */
+      alert("Copied the text: " + copyText.value);
+    }
+
     </script>
 
   {% endblock %}
