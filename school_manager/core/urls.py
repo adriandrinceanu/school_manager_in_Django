@@ -9,6 +9,7 @@ urlpatterns = [
     path('teacher/<str:username>/', views.teacher_profile, name='teacher_profile'),
     path('teacher/student/<int:pk>/', views.teacher_student_detail, name='teacher_student_detail'),
     path('teacher/students/homeworks/', views.teacher_student_homework, name='teacher_student_homework'),
+    path('teacher/students/top/', views.teacher_student_top, name='teacher_student_top'),
     path('student/<str:username>/', views.student_profile, name='student_profile'),
     path('student/<str:username>/grades/', views.student_profile_grades, name='student_profile_grades'),
     path('student/<str:username>/subjects/', views.student_profile_subjects, name='student_profile_subjects'),

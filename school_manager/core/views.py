@@ -8,8 +8,6 @@ from django.db.models import Avg, Count
 from django.views import View
 from django.contrib import messages
 from django.views.decorators.http import require_POST
-
-# Import your models here
 from .models import Parent, Teacher, Student, Subject, Grade, StudentGrade, Year, YearGroup, Homework, StatusUpdate
 
 
@@ -110,6 +108,42 @@ def teacher_student_homework(request):
     else:
         form = AddHomeworkForm(teacher=teacher)
     return render(request, 'teacher_student_homework.html', {'form': form, 'teacher': teacher, 'subjects': subjects})
+
+
+def teacher_student_top(request):
+    teacher = request.user.teacher
+    subjects = teacher.subjects.all()
+    # #best student by year
+    # year_number = request.GET.get('year')
+    # best_student_by_year = None
+    # if Year.objects.filter(year=year_number).exists():
+    #     year = Year.objects.get(year=year_number)
+    #     best_student_by_year = Student.objects.filter(year=year).annotate(avg_grade=Avg('studentgrade__grade')).order_by('-avg_grade').first()
+        
+    # #best student by group
+    # group_name = request.GET.get('group')
+    # best_student_by_group = None
+    # if Group.objects.filter(name=group_name).exists():
+    #     group = Group.objects.get(name=group_name)
+    #     best_student_by_group = Student.objects.filter(group=group).annotate(avg_grade=Avg('studentgrade__grade')).order_by('-avg_grade').first()
+        
+    #top 10 students
+    top_students = Student.objects.annotate(avg_grade=Avg('studentgrade__grade')).order_by('-avg_grade')[:10]
+    
+    #top teacher by students
+    # top_teachers = Teacher.objects.annotate(num_top_students=Count('pupils__studentgrade__grade', filter=Q(studentgrade__grade__gte=90))).order_by('-num_top_students')
+    context = {
+        'teacher' : teacher,
+        'subjects': subjects,
+        # 'best_student_by_year':best_student_by_year,
+        # 'best_student_by_group': best_student_by_group,
+        'top_students' : top_students,
+        # 'top_teachers':top_teachers
+        
+    }
+    
+    return render(request, 'teacher_student_top.html', context)
+
 
 def student_profile(request, username):
     student = get_object_or_404(Student,  user__username=username)
@@ -232,8 +266,6 @@ def student_student_profile(request, username):
 
 
 
-
-
 def parent_profile(request, username):
     # parent = Parent.objects.get(user=request.user, user__username=username)
     parent = get_object_or_404(Parent, user=request.user, user__username=username)
@@ -249,7 +281,6 @@ def parent_profile(request, username):
         for teacher in student_teachers:
             teachers.add(teacher)
 
-    
     return render(request, 'parent.html', {'parent': parent, 'students': students, 'grades': grades, 'teachers': teachers})
 
 

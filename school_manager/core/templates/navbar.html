@@ -16,6 +16,7 @@
         {% if request.user|in_group:"Teachers" %}
         <li class="nav-item"><a class="nav-link" aria-current="page" href="{% url 'teacher_profile' username=request.user.username %}">Profile</a></li>
         <li class="nav-item"><a class="nav-link" aria-current="page" href="{% url 'teacher_student_homework' %}">Homeworks</a></li>
+        <li class="nav-item"><a class="nav-link" aria-current="page" href="{% url 'teacher_student_top' %}">Top</a></li>
         {% endif %}
 
         {% if request.user|in_group:"Students" %}
