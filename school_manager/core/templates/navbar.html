@@ -21,7 +21,7 @@
         <li class="nav-item"><a class="nav-link" aria-current="page" href="{% url 'student_profile' username=request.user.username %}">Profile</a></li>
         <li class="nav-item"><a class="nav-link" aria-current="page" href="{% url 'student_profile_grades' username=request.user.username %}">Grades</a></li>
         <li class="nav-item"><a class="nav-link" aria-current="page" href="{% url 'student_profile_subjects' username=request.user.username %}">Subjects</a></li>
-
+        <li class="nav-item"><a class="nav-link" aria-current="page" href="{% url 'student_profile_homework' username=request.user.username %}">Homework</a></li>
         {% endif %}
       
       </ul>

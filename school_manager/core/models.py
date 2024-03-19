@@ -122,6 +122,8 @@ class Homework(models.Model):
     due_date = models.DateField()
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     students = models.ManyToManyField(Student, related_name='homeworks')
+    is_done = models.BooleanField(default=False) 
+    screenshot = models.ImageField(upload_to='static/images',null=True, blank=True)
 
     def __str__(self) -> str:
         return f"Homework {self.title}"

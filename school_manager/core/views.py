@@ -138,8 +138,35 @@ def student_profile_subjects(request, username):
     subjects = student.subjects.all()
     teachers = student.teachers.all()
     return render(request, 'student_subjects.html', {'student': student, 'all_students': all_students, \
-                                            'year': year, 'year_group': year_group, 'subjects': subjects, \
+                                            'year': year, 'year_group': year_group, 'subjects': subjects,  \
                                             'teachers': teachers})
+    
+
+def student_profile_homework(request, username):
+    student = get_object_or_404(Student,  user__username=username)
+    all_students = Student.objects.all()
+    year = student.year
+    year_group = student.year_group
+    homeworks = student.homeworks.all()
+    teachers = student.teachers.all()
+    return render(request, 'student_homework.html', {'student': student, 'all_students': all_students, \
+                                            'year': year, 'year_group': year_group, 'homeworks': homeworks, \
+                                            'teachers': teachers})
+    
+    
+    
+def homework_done(request, homework_id):
+    # Get the Student object for the current user
+    student = get_object_or_404(Student, user=request.user)
+
+    # Get the Homework object for the given id that is related to the current student
+    homework = get_object_or_404(Homework, id=homework_id, students=student)
+
+    # Mark the homework as done
+    homework.is_done = True
+    homework.save()
+
+    return redirect('student_profile_homework', username=request.user.username)
 
 @require_POST
 def delete_status(request, status_id):
@@ -188,6 +215,8 @@ def student_student_profile(request, username):
                                             'year': year, 'year_group': year_group, \
                                             'teachers': teachers, 'statuses': statuses, 'form': form, 'my_username': my_username, \
                                                 'room_name': room_name})
+
+
 
 
 
