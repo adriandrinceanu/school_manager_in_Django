@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<main>
+  <div class="container py-4">
+  
+    <div class="row align-items-md-stretch">
+      <div class="col-md-4" style="height: 65vh; overflow: auto; position: sticky; top: 50px;" >
+        <div class="h-100 p-5 text-bg-light rounded-1 border">
+          <img style='width:260px; height:auto;' src="{{ parent.profile_pic.url }}" class="card-img-top" alt="{{ parent.name }}">
+          <h2>{{ parent.name }}</h2>
+          <p>Parent</p>
+          <hr class="styled-hr">
+          <p>My child: 
+            {% for student in students %}
+              {{ student.first_name }} {{ student.last_name }}, 
+            {% endfor %}
+          </p>
+          <p>His teachers: 
+            {% for teacher in teachers %}
+              {{ teacher.name }}, 
+            {% endfor %}
+          </p>
+        </div>
+      </div>
+      <div class="col-md-8">
+        <div class="h-100 p-5  text-bg-light border rounded-1" >
+          <h2>My child's grades</h2>
+          <p>
+            <div class="p-1 gap-3 py-1 w-100 ">
+              <div class="list-group">
+                  {% for grade in grades %}
+                  <div class="d-flex py-1 w-100 justify-content-between ">
+                      <div>
+                          <h6 class="mb-0">{{ grade.student.first_name }} {{ grade.student.last_name }} got {{ grade.grade.grade }} in {{ grade.subject.name }}</h6>
+                      </div>
+                  </div>
+                  <hr class="styled-hr">
+                  {% endfor %}
+              </div>
+          </div>
+          </p>
+        </div>
+      </div>
+    </div>
+
+</main>
+
+{% endblock %}

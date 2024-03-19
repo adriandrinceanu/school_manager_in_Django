@@ -220,10 +220,23 @@ def student_student_profile(request, username):
 
 
 
-def parent_profile(request):
-    parent = Parent.objects.get(user=request.user)
-    children = parent.children.all()
-    return render(request, 'parent.html', {'parent': parent, 'children': children})
+def parent_profile(request, username):
+    # parent = Parent.objects.get(user=request.user, user__username=username)
+    parent = get_object_or_404(Parent, user=request.user, user__username=username)
+    students = parent.children.all()
+    grades = []
+    for student in students:
+        student_grades = student.studentgrade_set.all()
+        grades.extend(student_grades)
+        
+    teachers = set()
+    for student in students:
+        student_teachers = student.teachers.all()
+        for teacher in student_teachers:
+            teachers.add(teacher)
+
+    
+    return render(request, 'parent.html', {'parent': parent, 'students': students, 'grades': grades, 'teachers': teachers})
 
 
 

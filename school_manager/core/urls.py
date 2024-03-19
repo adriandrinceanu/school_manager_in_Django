@@ -14,6 +14,6 @@ urlpatterns = [
     path('student/<str:username>/homework/', views.student_profile_homework, name='student_profile_homework'),
     path('homework_done/<int:homework_id>/', views.homework_done, name='homework_done'),
     path('student/student_profile/<str:username>/', views.student_student_profile, name='student_student_profile'),
-    path('parent_profile/', views.parent_profile, name='parent_profile'),
+    path('parent/<str:username>/', views.parent_profile, name='parent_profile'),
     
 ]
