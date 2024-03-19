@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import login,logout,authenticate
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
-from .forms import AddGradeForm, StatusUpdateForm
+from .forms import AddGradeForm, StatusUpdateForm, AddHomeworkForm
 from django.db.models import Avg, Count
 from django.views import View
 from django.contrib import messages
@@ -96,6 +96,20 @@ def teacher_student_detail(request, pk):
     grades = StudentGrade.objects.filter(student=student)
     return render(request, 'teacher_student_detail.html', {'student': student, 'teacher': teacher, 'student_pk': pk, 'grades': grades, 'form': form})
 
+
+def teacher_student_homework(request):
+    teacher = request.user.teacher
+    subjects = teacher.subjects.all()
+    if request.method == 'POST':
+        form = AddHomeworkForm(request.POST, teacher=teacher)
+        if form.is_valid():
+            homework = form.save(commit=False)
+            homework.save()
+            form.save_m2m()  # Save the many-to-many data
+            return redirect('teacher_student_homework')
+    else:
+        form = AddHomeworkForm(teacher=teacher)
+    return render(request, 'teacher_student_homework.html', {'form': form, 'teacher': teacher, 'subjects': subjects})
 
 def student_profile(request, username):
     student = get_object_or_404(Student,  user__username=username)
