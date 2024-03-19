@@ -47,7 +47,7 @@ def loginPage(request):
     
 def logoutPage(request):
     logout(request)
-    return redirect('login')
+    return redirect('home')
     
 
 def in_teachers_group(user):
