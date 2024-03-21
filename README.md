@@ -30,6 +30,3 @@ docker exec -it school_manager_in_django-web-1 bash
 
 <h3>You can check out finished project</h3>
 ![Drinceanu Adrian Django app in Python](school_manager/media/static/images/homepage.jpg)
-![Drinceanu Adrian Django app in Python](https://drincenii.ro/profile.jpg)
-![Drinceanu Adrian Django app in Python](https://drincenii.ro/chat.jpg)
-![Drinceanu Adrian Django app in Python](https://drincenii.ro/model.png)
