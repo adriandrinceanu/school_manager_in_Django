@@ -1,28 +1,25 @@
-A Django School Management Project with a complete front-end. This project is for practicing my Python coding. I included a grade prediction functionality which I think it's a great touch.
+<h1>A Django School Management Project with a complete front-end. </h1>
+<h3>Basically I tried to mimic Facebook in it's first years. Keep reading for details</h3>
+This project is for practicing my Python/Django programing skills. 
 
-A complex school manager with the following logic:
-    - The Principal can view Teachers, Students, Student's Parents, School years, Subjects, Grades and has admin privileges over them
-    - The Teachers can view their students, and have access to their grades, parents, Subjects.
-    - The Students can view their grades and teachers
-    - The Parents cand view their child's grades, teachers and subjects
+
+<h3>A complex school manager with the following logic:</h3>
+    <li>Teachers can view their students, and have access to their grades, parents, Subjects. Can also assign homework only to his/her students.</li>
+    <li>Students can view their grades, subjects, year they are in and also their homework.</li>
+    <li>Students can post a status on their wall and other students can check out the status.</li>
+    <li>Students can **chat** with each other.</li>
+    <li>The Parents cand view their child's grades</li>
     
-Functionalities:
-    - best student per teacher
-    - best student per year
-    - best student by class/group
-    - Grade prediction per student
-    - Teachers with the most top students
-    - Top 10 Students
-    - Top 100 Students
-    - Best class
-    - Top classes
-    - Top teachers
-
-Chat system between students. Only accesible from student profile page, which means I have to build a search form for students. (Search by year, group, name, etc)
+<h3>Functionalities:</h3>
+    <li>Chat functionality</li>
+    <li>Top 10 Students</li>
+    <li>Switched to ASGI</li>
+    <li>Used REDIS</li>
+    <li>Django Channels, Gunicorn, Uvicorn</li>
 
 docker exec -it school_manager_in_django-web-1 bash
 
-To do:
+<h3>To do:</h3>
 1. Models - DONE 
 2. Views -DONE
 3. Urls - DONE
@@ -30,3 +27,9 @@ To do:
 5. Top/Best of logic - half way there
 6. Chat system - DONE
 7. final grade prediction - not yet started
+
+<h3>You can check out finished project</h3>
+![Drinceanu Adrian Django app in Python](https://drincenii.ro/homepage.jpg)
+![Drinceanu Adrian Django app in Python](https://drincenii.ro/profile.jpg)
+![Drinceanu Adrian Django app in Python](https://drincenii.ro/chat.jpg)
+![Drinceanu Adrian Django app in Python](https://drincenii.ro/model.png)
