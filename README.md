@@ -29,4 +29,11 @@ docker exec -it school_manager_in_django-web-1 bash
 7. final grade prediction - not yet started
 
 <h3>You can check out finished project</h3>
-![Drinceanu Adrian Django app in Python](school_manager/media/static/images/homepage.jpg)
+![Homespage](school_manager/media/static/images/homepage.jpg)
+
+![Profile](school_manager/media/static/images/profile.jpg)
+
+![Chat](school_manager/media/static/images/chat.jpg)
+
+![Model](school_manager/media/static/images/model.png)
+
