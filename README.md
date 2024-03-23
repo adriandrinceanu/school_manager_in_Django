@@ -1,5 +1,5 @@
 <h1>A Django School Management Project with a complete front-end. </h1>
-<h3>Basically I tried to mimic Facebook in it's first years. Keep reading for details</h3>
+<h3>Basically I tried to mimic Facebook in its first years. Keep reading for details</h3>
 This project is for practicing my Python/Django programing skills. 
 
 
