@@ -26,15 +26,17 @@ services:
       - redis
       - db
 
-  # nginx:
-  #   image: nginx:latest
-  #   volumes:
-  #     - ./nginx:/etc/nginx/conf.d
-  #     - ./school_manager/collectstatic:/school_manager/collectstatic
-  #   ports:
-  #     - 80:80
-  #   depends_on:
-  #     - web
+  nginx:
+    container_name: nginx
+    restart: always
+    image: nginx:latest
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - ./school_manager/collectstatic:/school_manager/collectstatic
+    ports:
+      - 80:80
+    depends_on:
+      - web
 
 volumes:
   static_volume:
