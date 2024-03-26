@@ -1,5 +1,5 @@
 <h1>A Django School Management Project with a complete front-end. </h1>
-<h3>Basically I tried to mimic Facebook in it's first years. Keep reading for details</h3>
+<h3>Basically I tried to mimic Facebook in its first years. Keep reading for details</h3>
 This project is for practicing my Python/Django programing skills. 
 
 
@@ -28,7 +28,7 @@ docker exec -it school_manager_in_django-web-1 bash
 6. Chat system - DONE
 7. final grade prediction - not yet started
 
-<h3>You can check out finished project</h3>
+<h3>You can check out the finished project</h3>
 
 ![Homespage](school_manager/media/static/images/homepage.jpg)
 
