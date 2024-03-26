@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'core',
     'channels',
     "django_extensions",
-    "debug_toolbar",
+    # "debug_toolbar",
     "rest_framework",
     "tinymce",
     "storages",
@@ -59,7 +59,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    "debug_toolbar.middleware.DebugToolbarMiddleware",
+    # "debug_toolbar.middleware.DebugToolbarMiddleware",
     
 ]
 
@@ -209,10 +209,11 @@ CORS_ORIGIN_WHITELIST = [
     "http://172.19.0.1",
     "http://0.0.0.0:8000",
     "http://0.0.0.0:6379",   
+    "https://school-manager-in-django.onrender.com/"
 ]
 CORS_ALLOW_CREDENTIALS = True
 
-SESSION_COOKIE_DOMAIN = 'localhost'
+SESSION_COOKIE_DOMAIN = 'school-manager-in-django.onrender.com'
 SESSION_COOKIE_SECURE = False
 
 
