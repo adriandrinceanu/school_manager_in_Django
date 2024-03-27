@@ -41,11 +41,15 @@
   overflow: auto; 
   position: relative; 
   top: 50px;
+  padding-bottom:60px;
 }
 
 @media (min-width: 768px) { /* Adjust the threshold as needed */
     .sticky-responsive {
         position: sticky; /* Sticky only on non-mobile devices */
+    }
+    .padding-mobil{
+      padding-bottom: 375px;
     }
 }
 </style>
@@ -68,7 +72,7 @@
         </p>
         </div>
       </div>
-      <div class="col-md-8">
+      <div class="col-md-8 padding-mobil">
         <div class="h-100 p-5  text-bg-light border rounded-1" >
           <h2>{{ student.first_name }}'s wall</h2>
 
