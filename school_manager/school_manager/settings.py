@@ -30,7 +30,15 @@ DEBUG = True
 ALLOWED_HOSTS = ["*"]
 
 load_dotenv()  # take environment variables from .env.
-CSRF_TRUSTED_ORIGINS = [os.getenv("CSRF_TRUSTED_ORIGINS")]
+CSRF_TRUSTED_ORIGINS = [
+    'https://school-manager-in-django.onrender.com', 
+    'http://localhost:8000', 
+    'http://localhost:80', 
+    'http://127.0.0.1:8000', 
+    'http://127.0.0.1:80', 
+    'http://127.0.0.1:6379', 
+    'http://localhost:6379' 
+    ]
 
 
 # Application definition
