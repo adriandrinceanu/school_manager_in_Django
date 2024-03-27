@@ -39,14 +39,14 @@
 .sticky-responsive{
   height: auto; 
   overflow: auto; 
-  position: relative; 
+  position: sticky; 
   top: 50px;
   padding-bottom:60px;
 }
 
 @media (max-width: 768px) { /* Adjust the threshold as needed */
     .sticky-responsive {
-        position: sticky; /* Sticky only on non-mobile devices */
+        position: relative; /* Sticky only on non-mobile devices */
     }
     .padding-mobil{
       padding-bottom: 375px;
