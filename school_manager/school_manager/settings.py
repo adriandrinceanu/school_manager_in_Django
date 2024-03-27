@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 from pathlib import Path
 import os
 import dj_database_url
+from dotenv import load_dotenv
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -27,6 +28,9 @@ SECRET_KEY = 'django-insecure-a$-c-)igv*uoy^==cgg4lf+#-!u$a9bqt4o#3+*6&f8rp%lo4^
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
+
+load_dotenv()  # take environment variables from .env.
+CSRF_TRUSTED_ORIGINS = [os.getenv("CSRF_TRUSTED_ORIGINS")]
 
 
 # Application definition
@@ -119,7 +123,6 @@ DATABASES = {
     )
 }
 
-CSRF_TRUSTED_ORIGINS = [os.getenv("CSRF_TRUSTED_ORIGINS")]
 
 
 
