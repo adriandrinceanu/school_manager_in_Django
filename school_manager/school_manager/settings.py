@@ -205,7 +205,7 @@ CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            "hosts": [('redis', 6379)],  # Used service name defined in docker-compose.yml
+            "hosts": [('redis://red-co1ungla73kc73cfnnn0:6379')],  # Used service name defined in docker-compose.yml
         },
         'MIDDLEWARE': [
             'channels.sessions.SessionMiddleware',  # Channels' SessionMiddleware
