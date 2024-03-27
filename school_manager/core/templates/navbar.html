@@ -4,7 +4,32 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary" aria-label="Thirteenth navbar example">
   <div class="container-fluid">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample11" aria-controls="navbarsExample11" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
+      <span class="navbar-toggler-icon">
+        <ul class="navbar-nav col-lg-6 justify-content-lg-center">
+          <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a></li>
+          
+          
+  
+          {% if request.user|in_group:"Teachers" %}
+          <li class="nav-item"><a class="nav-link" aria-current="page" href="{% url 'teacher_profile' username=request.user.username %}">Profile</a></li>
+          <li class="nav-item"><a class="nav-link" aria-current="page" href="{% url 'teacher_student_homework' %}">Homeworks</a></li>
+          <li class="nav-item"><a class="nav-link" aria-current="page" href="{% url 'teacher_student_top' %}">Top</a></li>
+          {% endif %}
+  
+          {% if request.user|in_group:"Students" %}
+          <li class="nav-item"><a class="nav-link" aria-current="page" href="{% url 'student_profile' username=request.user.username %}">Profile</a></li>
+          <li class="nav-item"><a class="nav-link" aria-current="page" href="{% url 'student_profile_grades' username=request.user.username %}">Grades</a></li>
+          <li class="nav-item"><a class="nav-link" aria-current="page" href="{% url 'student_profile_subjects' username=request.user.username %}">Subjects</a></li>
+          <li class="nav-item"><a class="nav-link" aria-current="page" href="{% url 'student_profile_homework' username=request.user.username %}">Homework</a></li>
+          {% endif %}
+  
+          {% if request.user|in_group:"Parents" %}
+          <li class="nav-item"><a class="nav-link" aria-current="page" href="{% url 'parent_profile' username=request.user.username %}">Profile</a></li>
+          {% endif %}
+        
+        </ul>
+
+      </span>
     </button>
 
       <a class="navbar-brand col-lg-3 me-0" style="padding-left:2%;" href="{% url 'home' %}">SchoolBook</a>
