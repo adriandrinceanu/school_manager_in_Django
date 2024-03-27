@@ -1,12 +1,36 @@
 {% extends "base.html" %}
 
 {% block content %}
+<style>
 
+  .form-control {
+  
+      color: #1c1e21 !important;
+  
+  }
+  
+  
+  .sticky-responsive{
+    overflow: auto; 
+    position: sticky; 
+    top: 50px;
+    padding-bottom:60px;
+  }
+  
+  @media (max-width: 768px) { /* Adjust the threshold as needed */
+      .sticky-responsive {
+          position: relative; /* Sticky only on non-mobile devices */
+      }
+      .position-fixed{
+        position: relative !important;
+      }
+  }
+  </style>
 <main>
     <div class="container py-4">
     
       <div class="row align-items-md-stretch">
-        <div class="col-md-4" style="height: 65vh; overflow: auto; position: sticky; top: 50px;" >
+        <div class="col-md-4 sticky-responsive" style="height: 65vh;" >
             <div class="h-100 p-5 text-bg-light rounded-1 border">
               <img style='width:260px; height:auto;' src="{{ teacher.profile_pic.url }}" class="card-img-top" alt="{{ teacher.name }}">
               <h2>{{ teacher.name }}</h2>
@@ -19,7 +43,7 @@
               </p>
             </div>
           </div>
-        <div class="col-md-8">
+        <div class="col-md-8"  style="background-color:#f0f2f5 !important; z-index:99;">
             <div class="h-100 p-5 text-bg-light border rounded-1">
                 <h2>Homeworks</h2>
                 
