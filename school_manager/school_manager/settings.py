@@ -104,6 +104,13 @@ WSGI_APPLICATION = 'school_manager.wsgi.application'
 #     }
 # }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 
 DATABASES = {
     'default': dj_database_url.config(
@@ -115,12 +122,6 @@ DATABASES = {
 CSRF_TRUSTED_ORIGINS = [os.getenv("CSRF_TRUSTED_ORIGINS")]
 
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
 
 
 
@@ -209,7 +210,7 @@ CORS_ORIGIN_WHITELIST = [
     "http://172.19.0.1",
     "http://0.0.0.0:8000",
     "http://0.0.0.0:6379",   
-    "https://school-manager-in-django.onrender.com/"
+    "https://school-manager-in-django.onrender.com"
 ]
 CORS_ALLOW_CREDENTIALS = True
 
